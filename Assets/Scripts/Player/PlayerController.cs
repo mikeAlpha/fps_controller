@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerController : BaseNetworkBehaviour
 {
@@ -17,8 +16,12 @@ public class PlayerController : BaseNetworkBehaviour
     //temporary
     private InputManager inputManager;
 
+    Vector3 direction;
+
     private void Awake()
     {
+        Application.targetFrameRate = 120;
+
         inputManager = new InputManager();
         EventHandler.ExecuteEvent<InputManager>(GameEvents.OnInputManagerUpdate, inputManager);
     }
@@ -36,6 +39,25 @@ public class PlayerController : BaseNetworkBehaviour
         Jump();
         CheckShoot();
     }
+
+    private void rbMove()
+    {
+        if (direction.magnitude >= 0.1f)
+        {
+            Vector3 dir = transform.TransformDirection(direction);
+            Vector3 move = dir * moveSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + move);
+        }
+        anim.SetFloat("Speed", direction.magnitude, 0.1f, 0.1f);
+        tps_anim.SetFloat("SpeedX", direction.x, 0.1f, 0.1f);
+        tps_anim.SetFloat("SpeedY", direction.z, 0.1f, 0.1f);
+    }
+
+    protected override void FixedUpdate()
+    {
+       rbMove();
+    }
+
     private void UpdateInput()
     {
         inputManager.UpdateInput();
@@ -64,19 +86,9 @@ public class PlayerController : BaseNetworkBehaviour
         float horizontal = inputManager.GetInputAxis().x;
         float vertical = inputManager.GetInputAxis().y;
 
-        Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
+        direction = new Vector3(horizontal, 0, vertical).normalized;
 
         Debug.Log(direction);
-
-        if (direction.magnitude >= 0.1f)
-        {
-            Vector3 dir = transform.TransformDirection(direction);
-            Vector3 move = dir * moveSpeed * Time.deltaTime;
-            rb.MovePosition(rb.position + move);
-        }
-        anim.SetFloat("Speed", direction.magnitude, 0.1f, 0.1f);
-        tps_anim.SetFloat("SpeedX", direction.x, 0.1f,0.1f);
-        tps_anim.SetFloat("SpeedY", direction.z, 0.1f, 0.1f);
     }
 
     private void Jump()

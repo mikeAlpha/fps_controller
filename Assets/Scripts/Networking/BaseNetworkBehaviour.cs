@@ -14,6 +14,11 @@ public class BaseNetworkBehaviour : MonoBehaviour
         //OnPositionUpdate();
     }
 
+    protected virtual void FixedUpdate()
+    {
+
+    }
+
     protected virtual void OnPositionUpdate()
     {
         EventHandler.ExecuteEvent<Vector3, string, string>(GameEvents.OnUpdatePositionData, transform.position, gameObject.name, "room1");

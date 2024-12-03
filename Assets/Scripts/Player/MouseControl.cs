@@ -53,6 +53,8 @@ public class MouseControl : MonoBehaviour
 
 
             Quaternion targetRot = Quaternion.Euler(Rx, 0, 0);
+
+
             transform.localRotation = targetRot;
 
             Player.Rotate(Vector3.up * mX);
@@ -70,7 +72,7 @@ public class MouseControl : MonoBehaviour
         {
             while (Vector3.Distance(fpsCamObj.transform.position, MagPos.position) > 0.0001f)
             {
-                fpsCamObj.transform.position = Vector3.Lerp(fpsCamObj.transform.position, MagPos.position, Time.deltaTime * 5f);
+                fpsCamObj.transform.position = Vector3.Lerp(fpsCamObj.transform.position, MagPos.position, Time.smoothDeltaTime * 5f);
                 fpsCamObj.transform.rotation = MagPos.rotation;
                 fpsCamObj.fieldOfView = 25f;
                 Crosshair.SetActive(false);
