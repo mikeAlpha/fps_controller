@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : BaseNetworkBehaviour
 {
-    public float moveSpeed = 2f;
-    public float rotationSpeed = 720f;
-    public float jumpForce = 40f;
+    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float rotationSpeed = 720f;
+    [SerializeField] private float jumpForce = 40f;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -14,7 +15,9 @@ public class PlayerController : BaseNetworkBehaviour
     public Animator anim , tps_anim;
 
     //temporary
-    private InputManager inputManager;
+    [SerializeField] private InputManager inputManager;
+
+    [SerializeField] private PlayerHealth playerHealth;
 
     Vector3 direction;
 
@@ -23,6 +26,8 @@ public class PlayerController : BaseNetworkBehaviour
         Application.targetFrameRate = 120;
 
         inputManager = new InputManager();
+        playerHealth = new PlayerHealth();
+
         EventHandler.ExecuteEvent<InputManager>(GameEvents.OnInputManagerUpdate, inputManager);
     }
 

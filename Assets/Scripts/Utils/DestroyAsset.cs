@@ -1,13 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class DestroyAsset : MonoBehaviour
 {
     [SerializeField] private float time = 0.2f;
+    float timer = 0f;
 
-    void Start()
+    public string mtag;
+
+    void Update()
     {
-        Destroy(gameObject, time);
+        timer += Time.deltaTime;
+        if (timer > time)
+        {
+            PoolManager.Instance.ReturnObject(mtag, GetComponent<PoolableObject>());
+            timer = 0f;
+        }
+        //Destroy(gameObject, time);
     }
 }

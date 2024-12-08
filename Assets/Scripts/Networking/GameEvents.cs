@@ -7,9 +7,12 @@ public static class GameEvents
     public static string OnInputManagerUpdate = "OnInputManagerUpdate";
     public static string OnMouseUpdate = "OnMouseUpdate";
     public static string OnPlayerFire = "OnPlayerFire";
+    public static string OnPlayerHealthUpdate = "OnPlayerHealthUpdate";
 
     public static string OnUpdatePlayerInfo = "OnUpdatePlayerInfo";
     public static string OnUpdatePositionData = "OnUpdatePositionData";
     public static string OnJoinRoom = "OnJoinRoom";
     public static string OnCreateRoom = "OnCreateRoom";
+
+    public static string OnAiHealthUpdate = "OnAiHealthUpdate";
 }

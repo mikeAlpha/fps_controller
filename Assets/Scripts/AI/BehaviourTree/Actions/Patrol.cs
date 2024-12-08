@@ -28,12 +28,12 @@ public class Patrol : Action
 
         navMesh.destination = pos;
 
-        var direction = navMesh.velocity.normalized;
+        //var direction = navMesh.velocity.normalized;
 
         var anim = mTransform.GetComponent<AITree>().anim;
 
         anim.SetFloat("SpeedX", 0, 0.1f, 0.1f);
-        anim.SetFloat("SpeedY", Mathf.Abs(direction.z), 0.1f, 0.1f);
+        anim.SetFloat("SpeedY", /*Mathf.Abs(direction.z)*/1.0f, 0.1f, 0.1f);
 
 
         if (Vector3.Distance(mTransform.position, pos) < 0.5f)

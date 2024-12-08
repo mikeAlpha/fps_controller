@@ -11,6 +11,8 @@ namespace mikealpha
 
         protected float Tick = 0.5f;
 
+        protected abstract void Start();
+
         private void Awake()
         {
             mRootNode = CreateNode();

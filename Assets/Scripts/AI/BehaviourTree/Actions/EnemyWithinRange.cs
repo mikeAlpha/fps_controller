@@ -17,19 +17,22 @@ public class EnemyWithinRange : Condition
     void FindTarget()
     {
         mTree.targets.Clear();
-        Collider[] col = Physics.OverlapSphere(mTransform.position, mTree.ViewRadius, mTree.EnemyLayer);
+        Collider[] col = Physics.OverlapSphere(mTransform.position, mTree.ViewRadius);
         foreach(Collider c in col)
         {
-            var dir = (c.transform.position - mTransform.position).normalized;
-            float angleWithEnemy = Vector3.Angle(mTransform.forward, dir);
-            var dst = Vector3.Distance(mTransform.position, c.transform.position);
-            if(angleWithEnemy < mTree.ViewAngle / 2)
+            if (c.gameObject.CompareTag("Player"))
             {
-                if (Physics.Raycast(mTransform.position, dir, dst, mTree.ObstacleLayer))
-                    return;
-                else
+                var dir = (c.transform.position - mTransform.position).normalized;
+                float angleWithEnemy = Vector3.Angle(mTransform.forward, dir);
+                var dst = Vector3.Distance(mTransform.position, c.transform.position);
+                if (angleWithEnemy < mTree.ViewAngle / 2)
                 {
-                    mTree.targets.Add(c.transform);
+                    if (Physics.Raycast(mTransform.position, dir, dst, mTree.ObstacleLayer))
+                        return;
+                    else
+                    {
+                        mTree.targets.Add(c.transform);
+                    }
                 }
             }
         }

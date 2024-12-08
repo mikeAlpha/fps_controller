@@ -17,6 +17,10 @@ public class PlayerTPSController : MonoBehaviour
     public Transform LookAtPosition;
     public float RighthandWeight = 1.0f;
     public float LefthandWeight = 1.0f;
+    public float BodyWeight = 1.0f;
+    public float HeadWeight = 1.0f;
+    public float EyeWeight = 1.0f;
+    public float MainWeight = 1.0f;
 
     private GameObject rsp;
 
@@ -114,7 +118,7 @@ public class PlayerTPSController : MonoBehaviour
         anim.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, LefthandWeight);
 
         anim.SetLookAtPosition(LookAtPosition.position);
-        anim.SetLookAtWeight(1.0f, 1.0f, 1.0f, 1.0f);
+        anim.SetLookAtWeight(MainWeight, BodyWeight, HeadWeight, EyeWeight);
     }
 
     //public void UpdateIKRef(PlayerSettings CurAnimSetting)

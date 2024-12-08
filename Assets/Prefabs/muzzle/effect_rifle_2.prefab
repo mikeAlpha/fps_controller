@@ -9880,6 +9880,7 @@ GameObject:
   - component: {fileID: 5138300877533907932}
   - component: {fileID: 1530943017644697352}
   - component: {fileID: 7553965599372379209}
+  - component: {fileID: 6237317460694221509}
   m_Layer: 0
   m_Name: effect_rifle_2
   m_TagString: Untagged
@@ -14747,3 +14748,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.2
+--- !u!114 &6237317460694221509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8406440079140418892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d553dcc415d084da203899ba991c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class InputManager
 {
 
     Vector3 move_Dir = Vector2.zero;
     Vector2 rot_Dir = Vector2.zero;
 
-    float mouseSensitivity = 100f;
+    [SerializeField] private float mouseSensitivity = 100f;
 
     public InputManager() {
         Debug.Log("Init Input");
