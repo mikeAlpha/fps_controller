@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MouseControl : MonoBehaviour
 {
@@ -16,6 +17,20 @@ public class MouseControl : MonoBehaviour
     private GameObject startPos;
 
     private bool IsAiming = false;
+
+    public float minPitch = -90f;
+    public float maxPitch = 90f;
+
+    public float smoothTime = 0.1f;
+
+    private Transform cameraTransform;
+    private float yaw;
+    private float pitch;
+
+    private float currentYaw;
+    private float currentPitch;
+    private float yawVelocity;
+    private float pitchVelocity;
 
     private void OnEnable()
     {
@@ -47,21 +62,19 @@ public class MouseControl : MonoBehaviour
             float mX = inputMgr.GetRotationAxis().x;
             float mY = inputMgr.GetRotationAxis().y;
 
-            Rx -= mY;
+            yaw += mX;
+            pitch -= mY;
 
-            Rx = Mathf.Clamp(Rx, -45f, 45f);
+            pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
+            currentYaw = Mathf.SmoothDamp(currentYaw, yaw, ref yawVelocity, smoothTime);
+            currentPitch = Mathf.SmoothDamp(currentPitch, pitch, ref pitchVelocity, smoothTime);
 
-            Quaternion targetRot = Quaternion.Euler(Rx, 0, 0);
-
-
-            transform.localRotation = targetRot;
-
-            Player.Rotate(Vector3.up * mX);
+            Player.localRotation = Quaternion.Euler(0f, currentYaw, 0f);
+            transform.localRotation = Quaternion.Euler(-currentPitch, 0f, 0f);
 
             if (inputMgr.GetMouseDown(1))
                 ToggleScope();
-
         }
     }
 

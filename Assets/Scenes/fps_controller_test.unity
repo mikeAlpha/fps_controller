@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 8236.485, g: 7753.212, b: 7981.9697, a: 1}
+  m_IndirectSpecularColor: {r: 8396.938, g: 7881.372, b: 8068.3525, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -346,6 +346,11 @@ PrefabInstance:
       propertyPath: Crosshair
       value: 
       objectReference: {fileID: 616950732}
+    - target: {fileID: 6263234182432393992, guid: cc11e546f29604f4ea0325150c97d8c5,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8333841934788531390, guid: cc11e546f29604f4ea0325150c97d8c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -354,7 +359,7 @@ PrefabInstance:
     - target: {fileID: 8333841934788531390, guid: cc11e546f29604f4ea0325150c97d8c5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.93
+      value: 1.078
       objectReference: {fileID: 0}
     - target: {fileID: 8333841934788531390, guid: cc11e546f29604f4ea0325150c97d8c5,
         type: 3}
@@ -10088,6 +10093,9 @@ MonoBehaviour:
     m_Bits: 0
   targets: []
   anim: {fileID: 841665849022206472}
+  health:
+    MaxHealth: 0
+    Currenthealth: 0
 --- !u!195 &8659334765419966367
 NavMeshAgent:
   m_ObjectHideFlags: 0
