@@ -10,7 +10,7 @@ public class InputManager
     Vector3 move_Dir = Vector2.zero;
     Vector2 rot_Dir = Vector2.zero;
 
-    [SerializeField] private float mouseSensitivity = 100f;
+    [SerializeField] [Range(0, 1f), Tooltip("[0, 1]")] private float mouseSensitivity = 1f;
 
     public InputManager() {
         Debug.Log("Init Input");
@@ -24,8 +24,8 @@ public class InputManager
 
         move_Dir = new Vector2(horizontal, vertical).normalized;
 
-        float mX = Input.GetAxis("Mouse X") * Time.smoothDeltaTime * mouseSensitivity * 5f;
-        float mY = Input.GetAxis("Mouse Y") * Time.smoothDeltaTime * mouseSensitivity * 5f;
+        float mX = Input.GetAxis("Mouse X") * Time.deltaTime * mouseSensitivity * 100f;
+        float mY = Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSensitivity * 100f;
 
         rot_Dir = new Vector3(mX, mY, 0);
     }

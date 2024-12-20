@@ -1,25 +1,80 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
+
+[Serializable]
+public struct PlayerLocomotion
+{
+    [Range(0, 10f), Tooltip("[0, 10]")] public float acceleration;
+    [Range(0, 10f), Tooltip("[0, 10]")] public float walkSpeed;
+    [Range(0, 10f), Tooltip("[0, 10]")] public float runSpeed;
+    [Range(0, 10f), Tooltip("[0, 10]")] public float jumpHeight;
+    [Range(-10f, 10f), Tooltip("[-10, 10]")] public float gravity;
+}
+
+[Serializable]
+public struct PlayerLookSettings
+{
+    [Tooltip("Place the Camera Parent Object Here")] public Transform CamMainObj;
+    [Tooltip("Place the Camera Component Here")] public Camera fpsCamObj;
+    [Tooltip("Place the Aiming Position Here")] public Transform MagPos;
+    [Tooltip("Adjust the Min Pitch")] public float minPitch;
+    [Tooltip("Adjust the Max Pitch")] public float maxPitch;
+    [Tooltip("Look Interpolation Smooth Time")] public float smoothTime;
+}
+
+public struct PlayerAnimators
+{
+    public Animator anim;
+    public Animator tps_anim;
+}
 
 
 public class PlayerController : BaseNetworkBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float rotationSpeed = 720f;
-    [SerializeField] private float jumpForce = 40f;
-
     private Rigidbody rb;
+    private CharacterController characterController;
+    private Vector3 moveVelocity;
+    private Vector3 playerVelocity;
     private bool isGrounded;
 
-    public Animator anim , tps_anim;
+    private float yaw;
+    private float pitch;
+    private float currentYaw;
+    private float currentPitch;
+    private float yawVelocity;
+    private float pitchVelocity;
+    private bool IsAiming = false;
 
+    public Animator anim, tps_anim;
+
+    [SerializeField]
+    private PlayerLookSettings playerLookSettings = new PlayerLookSettings()
+    {
+        minPitch = -90f,
+        maxPitch = 90,
+        smoothTime = 0.1f
+    };
+
+    [SerializeField]
+    private PlayerLocomotion playerLocomotion = new PlayerLocomotion()
+    {
+        acceleration = 10f,
+        gravity = -9.8f,
+        jumpHeight = 2f,
+        walkSpeed = 5f,
+        runSpeed = 10f
+    };
+    
     //temporary
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private PlayerHealth playerHealth;
 
-    Vector3 direction;
+
+    private GameObject startPos;
 
     private void Awake()
     {
@@ -33,7 +88,14 @@ public class PlayerController : BaseNetworkBehaviour
 
     protected override void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        startPos = new GameObject("weaponStart");
+        startPos.transform.parent = playerLookSettings.CamMainObj.transform;
+        startPos.transform.position = playerLookSettings.fpsCamObj.transform.position;
+
+        //rb = GetComponent<Rigidbody>();
     }
 
     protected override void Update()
@@ -41,27 +103,21 @@ public class PlayerController : BaseNetworkBehaviour
         UpdateInput();
         MouseControl();
         Move();
-        Jump();
         CheckShoot();
     }
 
-    private void rbMove()
-    {
-        if (direction.magnitude >= 0.1f)
-        {
-            Vector3 dir = transform.TransformDirection(direction);
-            Vector3 move = dir * moveSpeed * Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + move);
-        }
-        anim.SetFloat("Speed", direction.magnitude, 0.1f, 0.1f);
-        tps_anim.SetFloat("SpeedX", direction.x, 0.1f, 0.1f);
-        tps_anim.SetFloat("SpeedY", direction.z, 0.1f, 0.1f);
-    }
-
-    protected override void FixedUpdate()
-    {
-       rbMove();
-    }
+    //private void rbMove()
+    //{
+    //    if (direction.magnitude >= 0.1f)
+    //    {
+    //        Vector3 dir = transform.TransformDirection(direction);
+    //        Vector3 move = dir * moveSpeed * Time.fixedDeltaTime;
+    //        rb.MovePosition(rb.position + move);
+    //    }
+    //    anim.SetFloat("Speed", direction.magnitude, 0.1f, 0.1f);
+    //    tps_anim.SetFloat("SpeedX", direction.x, 0.1f, 0.1f);
+    //    tps_anim.SetFloat("SpeedY", direction.z, 0.1f, 0.1f);
+    //}
 
     private void UpdateInput()
     {
@@ -70,7 +126,53 @@ public class PlayerController : BaseNetworkBehaviour
 
     private void MouseControl()
     {
-        EventHandler.ExecuteEvent(GameEvents.OnMouseUpdate);
+        //EventHandler.ExecuteEvent(GameEvents.OnMouseUpdate);
+        if (inputManager != null)
+        {
+
+            Debug.Log(inputManager.GetRotationAxis());
+
+            float mX = inputManager.GetRotationAxis().x;
+            float mY = inputManager.GetRotationAxis().y;
+
+            yaw += mX;
+            pitch -= mY;
+
+            pitch = Mathf.Clamp(pitch, playerLookSettings.minPitch, playerLookSettings.maxPitch);
+
+            currentYaw = Mathf.SmoothDamp(currentYaw, yaw, ref yawVelocity, playerLookSettings.smoothTime);
+            currentPitch = Mathf.SmoothDamp(currentPitch, pitch, ref pitchVelocity, playerLookSettings.smoothTime);
+
+            transform.localRotation = Quaternion.Euler(0f, currentYaw, 0f);
+            playerLookSettings.CamMainObj.localRotation = Quaternion.Euler(-currentPitch, 0f, 0f);
+
+            if (inputManager.GetMouseDown(1))
+                ToggleScope();
+        }
+    }
+
+    void ToggleScope()
+    {
+        IsAiming = !IsAiming;
+        if (IsAiming)
+        {
+            while (Vector3.Distance(playerLookSettings.fpsCamObj.transform.position, playerLookSettings.MagPos.position) > 0.0001f)
+            {
+                playerLookSettings.fpsCamObj.transform.position = Vector3.Lerp(playerLookSettings.fpsCamObj.transform.position, playerLookSettings.MagPos.position, Time.smoothDeltaTime * 5f);
+                playerLookSettings.fpsCamObj.transform.rotation = playerLookSettings.MagPos.rotation;
+                playerLookSettings.fpsCamObj.fieldOfView = 25f;
+                //Crosshair.SetActive(false);
+            }
+        }
+        else
+        {
+            while (Vector3.Distance(playerLookSettings.fpsCamObj.transform.position, startPos.transform.position) > 0.0001f)
+            {
+                playerLookSettings.fpsCamObj.transform.position = Vector3.Lerp(playerLookSettings.fpsCamObj.transform.position, startPos.transform.position, Time.deltaTime * 5f);
+                playerLookSettings.fpsCamObj.fieldOfView = 50f;
+                //Crosshair.SetActive(true);
+            }
+        }
     }
 
     private void CheckShoot()
@@ -88,28 +190,40 @@ public class PlayerController : BaseNetworkBehaviour
 
     private void Move()
     {
+        isGrounded = characterController.isGrounded;
+
+        if (isGrounded && playerVelocity.y < 0)
+        {
+            playerVelocity.y = -2f;
+        }
+
+
         float horizontal = inputManager.GetInputAxis().x;
         float vertical = inputManager.GetInputAxis().y;
 
-        direction = new Vector3(horizontal, 0, vertical).normalized;
+        var targetDirection = transform.right * horizontal + transform.forward * vertical;
+        targetDirection *= playerLocomotion.walkSpeed;
 
-        Debug.Log(direction);
-    }
+        moveVelocity = Vector3.Lerp(moveVelocity, targetDirection, playerLocomotion.acceleration * Time.deltaTime);
 
-    private void Jump()
-    {
-        if (inputManager.GetButtonDown("Jump") && isGrounded)
+        characterController.Move(moveVelocity * Time.deltaTime);
+
+        playerVelocity.y += playerLocomotion.gravity * Time.deltaTime;
+        characterController.Move(playerVelocity * Time.deltaTime);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            playerVelocity.y = Mathf.Sqrt(playerLocomotion.jumpHeight * -2f * playerLocomotion.gravity);
         }
+
+        anim.SetFloat("Speed", targetDirection.normalized.magnitude, 0.1f, 0.1f);
+        tps_anim.SetFloat("SpeedX", targetDirection.normalized.x, 0.1f, 0.1f);
+        tps_anim.SetFloat("SpeedY", targetDirection.normalized.z, 0.1f, 0.1f);
+
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.contacts[0].normal.y > 0.5f)
-        {
-            isGrounded = true;
-        }
-    }
+    //private void MouseControl()
+    //{
+
+    //}
 }

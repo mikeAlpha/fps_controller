@@ -1364,7 +1364,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1838547332363475912}
-  - component: {fileID: 1756269481684652087}
   m_Layer: 0
   m_Name: fps-rig
   m_TagString: MainCamera
@@ -1390,22 +1389,6 @@ Transform:
   - {fileID: 8970251917951234490}
   m_Father: {fileID: 8333841934788531390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1756269481684652087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2869379303986086091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdd3869ca0a9534e971bad5bb75fa9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 8333841934788531390}
-  MagPos: {fileID: 8970251917951234490}
-  fpsCamObj: {fileID: 2535474462887534841}
-  Crosshair: {fileID: 0}
 --- !u!1 &2905406722987566281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,10 +1622,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FireRate: 0.1
   FirePoint: {fileID: 295864383179291568}
-  MuzzleObject: {fileID: 8406440079140418892, guid: 5d78b06eb8fb8884fa2c3268a00c9869,
-    type: 3}
-  BulletImpact: {fileID: 2435590112867305220, guid: 240a73e990d5e4548bb69725259de208,
-    type: 3}
   CurrentlySelected: 1
 --- !u!1 &3166575325629048142
 GameObject:
@@ -5527,10 +5506,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FireRate: 0.5
   FirePoint: {fileID: 8063592865458915895}
-  MuzzleObject: {fileID: 8406440079140418892, guid: 5d78b06eb8fb8884fa2c3268a00c9869,
-    type: 3}
-  BulletImpact: {fileID: 2435590112867305220, guid: 240a73e990d5e4548bb69725259de208,
-    type: 3}
   CurrentlySelected: 1
 --- !u!1 &8480091035537201798
 GameObject:
@@ -5639,9 +5614,8 @@ GameObject:
   - component: {fileID: 8333841934788531390}
   - component: {fileID: 5836280391385761469}
   - component: {fileID: 3147478002605730039}
-  - component: {fileID: 6263234182432393992}
-  - component: {fileID: 6582308361907837783}
-  m_Layer: 2
+  - component: {fileID: 239298025432576334}
+  m_Layer: 0
   m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5677,11 +5651,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8319ef51c538345850bf7dfd073773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rotationSpeed: 720
-  jumpForce: 2
+  playerLookSettings:
+    CamMainObj: {fileID: 1838547332363475912}
+    fpsCamObj: {fileID: 2535474462887534841}
+    MagPos: {fileID: 8970251917951234490}
+    minPitch: -90
+    maxPitch: 90
+    smoothTime: 0.1
   anim: {fileID: 798019410525917768}
   tps_anim: {fileID: 841665848535797597}
+  playerLocomotion:
+    acceleration: 10
+    walkSpeed: 5
+    runSpeed: 10
+    jumpHeight: 2
+    gravity: -9.8
+  inputManager:
+    mouseSensitivity: 1
+  playerHealth:
+    MaxHealth: 100
+    Currenthealth: 100
 --- !u!114 &3147478002605730039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5695,35 +5684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player_id: PLayer_1
---- !u!54 &6263234182432393992
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8659334765537276616}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 10
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!136 &6582308361907837783
-CapsuleCollider:
+--- !u!143 &239298025432576334
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5740,11 +5702,14 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 2.001943
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.0019657314, z: 0}
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.3
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: -0.03, y: 0, z: -0.24}
 --- !u!1 &8680011706467900017
 GameObject:
   m_ObjectHideFlags: 0
