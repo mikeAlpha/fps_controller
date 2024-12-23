@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using WebSocketSharp;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 
 public class GameMultiplayerNetwork
 {
@@ -18,7 +20,10 @@ public class GameMultiplayerNetwork
 
         ws.OnMessage += (sender, e) =>
         {
-            ProcessServerResponse(e.Data);
+            UnityThread.executeInUpdate(() => 
+            {
+                ProcessServerResponse(e.Data);
+            });
         };
 
         ws.OnOpen += (sender, e) =>
@@ -29,7 +34,7 @@ public class GameMultiplayerNetwork
 
         ws.OnError += (sender, e) =>
         {
-            Debug.Log("Connection Error!!");
+            Debug.Log("Connection Error!! " + e.Message);
         };
 
         ws.Connect();
@@ -39,6 +44,18 @@ public class GameMultiplayerNetwork
     private void ProcessServerResponse(string response)
     {
         Debug.Log($"{response}");
+        try
+        {
+            var data = JsonConvert.DeserializeObject<CreateRoomUpdateInfo>(response);
+
+            Debug.Log(data.message);
+
+            EventHandler.ExecuteEvent(GameEvents.OnUpdateCreateRoomInfo, data);
+        }
+        catch(Exception e)
+        {
+            Debug.LogError("Error===" + e.Message);
+        }
     }
 
     private void SendPlayerInfoConnect(string player_id)
@@ -107,6 +124,22 @@ public class GameMultiplayerNetwork
         public float x;
         public float y;
         public float z;
+    }
+
+    [System.Serializable]
+    public class GenericEventClass<T>
+    {
+        public string eventType { get; set; }
+        public T param;
+    }
+
+    [System.Serializable]
+    public class CreateRoomUpdateInfo
+    {
+
+        public string message { get; set; }
+        public string roomId { get; set; }
+        public string ownerId {  get; set; }
     }
 
     //public string clientId = "Player1"; 

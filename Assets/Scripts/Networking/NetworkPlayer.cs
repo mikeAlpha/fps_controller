@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class NetworkPlayer : MonoBehaviour
 {
-    public string player_id = "PLayer_1";
+    public string player_id;
+    public bool IsMasterPlayer = false;
 
-    private void Start()
+    protected void OnEnable()
     {
-        //EventHandler.ExecuteEvent<string>(GameEvents.OnUpdatePlayerInfo, player_id);
+        EventHandler.RegisterEvent<string>(GameEvents.OnSetPlayerId, SetPlayerId);
+    }
+
+    protected void OnDisable()
+    {
+        EventHandler.UnregisterEvent<string>(GameEvents.OnSetPlayerId, SetPlayerId);
+    }
+
+    private void SetPlayerId(string player_id)
+    {
+        this.player_id = player_id;
     }
 }

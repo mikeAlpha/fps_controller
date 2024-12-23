@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class BaseNetworkBehaviour : MonoBehaviour
 {
+
+    protected virtual void OnEnable()
+    {
+
+    }
+
+    protected virtual void OnDisable() 
+    { 
+    
+    }
+
     protected virtual void Start()
     {
         //OnCreateRoom();

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+using UnityEngine.InputSystem.XR;
 
 [Serializable]
 public struct PlayerLocomotion
@@ -12,6 +12,8 @@ public struct PlayerLocomotion
     [Range(0, 10f), Tooltip("[0, 10]")] public float runSpeed;
     [Range(0, 10f), Tooltip("[0, 10]")] public float jumpHeight;
     [Range(-10f, 10f), Tooltip("[-10, 10]")] public float gravity;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float walkStepInterval;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float runStepInterval;
 }
 
 [Serializable]
@@ -32,7 +34,7 @@ public struct PlayerAnimators
 }
 
 
-public class PlayerController : BaseNetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private CharacterController characterController;
@@ -48,7 +50,11 @@ public class PlayerController : BaseNetworkBehaviour
     private float pitchVelocity;
     private bool IsAiming = false;
 
+    public Transform RaycastPoint;
     public Animator anim, tps_anim;
+    public AudioClip[] footstepClips;
+    
+    private AudioSource footstepSource;
 
     [SerializeField]
     private PlayerLookSettings playerLookSettings = new PlayerLookSettings()
@@ -65,7 +71,9 @@ public class PlayerController : BaseNetworkBehaviour
         gravity = -9.8f,
         jumpHeight = 2f,
         walkSpeed = 5f,
-        runSpeed = 10f
+        runSpeed = 10f,
+        walkStepInterval = 0.5f,
+        runStepInterval = 0.3f
     };
     
     //temporary
@@ -75,6 +83,8 @@ public class PlayerController : BaseNetworkBehaviour
 
 
     private GameObject startPos;
+    private float stepTimer = 0f;
+    private Vector3 targetDirection;
 
     private void Awake()
     {
@@ -86,24 +96,25 @@ public class PlayerController : BaseNetworkBehaviour
         EventHandler.ExecuteEvent<InputManager>(GameEvents.OnInputManagerUpdate, inputManager);
     }
 
-    protected override void Start()
+    protected void Start()
     {
         characterController = GetComponent<CharacterController>();
+        footstepSource = GetComponent<AudioSource>();
 
         Cursor.lockState = CursorLockMode.Locked;
         startPos = new GameObject("weaponStart");
         startPos.transform.parent = playerLookSettings.CamMainObj.transform;
         startPos.transform.position = playerLookSettings.fpsCamObj.transform.position;
-
         //rb = GetComponent<Rigidbody>();
     }
 
-    protected override void Update()
+    protected void Update()
     {
         UpdateInput();
         MouseControl();
         Move();
         CheckShoot();
+        HandleFootsteps();
     }
 
     //private void rbMove()
@@ -130,7 +141,7 @@ public class PlayerController : BaseNetworkBehaviour
         if (inputManager != null)
         {
 
-            Debug.Log(inputManager.GetRotationAxis());
+            //Debug.Log(inputManager.GetRotationAxis());
 
             float mX = inputManager.GetRotationAxis().x;
             float mY = inputManager.GetRotationAxis().y;
@@ -201,7 +212,7 @@ public class PlayerController : BaseNetworkBehaviour
         float horizontal = inputManager.GetInputAxis().x;
         float vertical = inputManager.GetInputAxis().y;
 
-        var targetDirection = transform.right * horizontal + transform.forward * vertical;
+        targetDirection = transform.right * horizontal + transform.forward * vertical;
         targetDirection *= playerLocomotion.walkSpeed;
 
         moveVelocity = Vector3.Lerp(moveVelocity, targetDirection, playerLocomotion.acceleration * Time.deltaTime);
@@ -222,8 +233,29 @@ public class PlayerController : BaseNetworkBehaviour
 
     }
 
-    //private void MouseControl()
-    //{
+    private void HandleFootsteps()
+    {
+        if (characterController.isGrounded && targetDirection.normalized.magnitude > 0)
+        {
+            float stepInterval = playerLocomotion.walkStepInterval;
 
-    //}
+            stepTimer += Time.deltaTime;
+
+            if (stepTimer >= stepInterval)
+            {
+                if (footstepClips.Length > 0)
+                {
+                    int index = UnityEngine.Random.Range(0, footstepClips.Length);
+                    AudioClip clip = footstepClips[index];
+
+                    footstepSource.PlayOneShot(clip);
+                }
+                stepTimer = 0f;
+            }
+        }
+        else
+        {
+            stepTimer = 0f;
+        }
+    }
 }
