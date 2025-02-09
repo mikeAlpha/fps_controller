@@ -8,7 +8,7 @@ namespace mikealpha
     {
         public Sequence(List<Node> nodes)
         {
-            childNodes = nodes;
+          childNodes = nodes;
         }
 
         public override status UpdateStatus(float tick)

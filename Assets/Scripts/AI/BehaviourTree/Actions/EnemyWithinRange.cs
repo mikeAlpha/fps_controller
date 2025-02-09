@@ -1,49 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using mikealpha;
 
-public class EnemyWithinRange : Condition
+namespace mikealpha
 {
-    private Transform mTransform;
-    private AITree mTree;
-
-    public EnemyWithinRange(Transform transform, AITree tree)
+    public class EnemyWithinRange : Condition
     {
-        mTransform = transform;
-        mTree = tree;
-    }
+        private Transform mTransform;
+        private AITree mTree;
 
-    void FindTarget()
-    {
-        mTree.targets.Clear();
-        Collider[] col = Physics.OverlapSphere(mTransform.position, mTree.ViewRadius);
-        foreach(Collider c in col)
+        public EnemyWithinRange(Transform transform)
         {
-            if (c.gameObject.CompareTag("Player"))
+            mTransform = transform;
+            if (mTransform.GetComponent<AITree>() != null)
             {
-                var dir = (c.transform.position - mTransform.position).normalized;
-                float angleWithEnemy = Vector3.Angle(mTransform.forward, dir);
-                var dst = Vector3.Distance(mTransform.position, c.transform.position);
-                if (angleWithEnemy < mTree.ViewAngle / 2)
+                mTree = mTransform.GetComponent<AITree>();
+            }
+        }
+
+        void FindTarget()
+        {
+            mTree.targets.Clear();
+            Collider[] col = Physics.OverlapSphere(mTransform.position, mTree.ViewRadius);
+            foreach (Collider c in col)
+            {
+                if (c.gameObject.CompareTag("Player"))
                 {
-                    if (Physics.Raycast(mTransform.position, dir, dst, mTree.ObstacleLayer))
-                        return;
-                    else
+                    var dir = (c.transform.position - mTransform.position).normalized;
+                    float angleWithEnemy = Vector3.Angle(mTransform.forward, dir);
+                    var dst = Vector3.Distance(mTransform.position, c.transform.position);
+                    if (angleWithEnemy < mTree.ViewAngle / 2)
                     {
-                        mTree.targets.Add(c.transform);
+                        if (Physics.Raycast(mTransform.position, dir, dst, mTree.ObstacleLayer))
+                            return;
+                        else
+                        {
+                            mTree.targets.Add(c.transform);
+                        }
                     }
                 }
             }
         }
-    }
 
-    public override bool CheckCondition()
-    {
-        FindTarget();
-        if (mTree.targets.Count > 0)
-            return true;
-        else
-            return false;
+        public override bool CheckCondition()
+        {
+            FindTarget();
+            if (mTree.targets.Count > 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

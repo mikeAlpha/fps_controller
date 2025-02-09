@@ -7,16 +7,16 @@ namespace mikealpha
 {
     public abstract class BaseBT : MonoBehaviour
     {
-        private Node mRootNode;
+        public Node mRootNode;
 
         protected float Tick = 0.5f;
 
         protected abstract void Start();
 
-        private void Awake()
-        {
-            mRootNode = CreateNode();
-        }
+        //private void Awake()
+        //{
+        //    mRootNode = CreateNode();
+        //}
 
         private void Update()
         {

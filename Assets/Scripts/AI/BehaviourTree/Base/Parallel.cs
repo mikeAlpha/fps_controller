@@ -6,6 +6,11 @@ namespace mikealpha
 {
     public class Parallel : Node
     {
+        public Parallel(List<Node> nodes)
+        {
+            childNodes = nodes;
+        }
+
         public override status UpdateStatus(float tick)
         {
             int pCount = 0;

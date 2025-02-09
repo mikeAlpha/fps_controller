@@ -1,37 +1,140 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using mikealpha;
+using System;
+using System.Reflection;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class BehaviorTreeEditor : EditorWindow
 {
     private const float panelWidth = 200f;
-    private string[] nodeTypes = { "Composites" , "Decorators", "Actions" };
+    private string[] nodesTy = new string[] { "Composites", "Actions", "Conditions" };
+    private Dictionary<string, List<string>> nodeTypes = new Dictionary<string, List<string>> {
+        { "Composites", new List<string>() },
+        { "Actions", new List<string> () },
+        { "Conditions", new List<string>()}
+    };
+
+
     private int selectedNodeType = 0;
+    private List<string> selectedList = new List<string>();
+
+    public AITree aiTree;
+    private bool IsSelected = false;
 
     private List<BehaviourTreeNode> nodes = new List<BehaviourTreeNode>();
-    private List<(BehaviourTreeNode,BehaviourTreeNode)> connections = new List<(BehaviourTreeNode,BehaviourTreeNode)>();
-
+    private List<(BehaviourTreeNode, BehaviourTreeNode)> connections = new List<(BehaviourTreeNode, BehaviourTreeNode)>();
+    private List<string> nodeList = new List<string>();
     private BehaviourTreeNode selectedNode;
 
+    private bool IsConnectionloaded = false;
+    public static bool IsWindowActivated = false;
+
     [MenuItem("MikeAlpha/AiBehaviorTree")]
-    public static void ShowWindow() 
-    {  
-        GetWindow<BehaviorTreeEditor>(); 
+    public static void ShowWindow()
+    {
+        var bTreeEditor = GetWindow<BehaviorTreeEditor>();
+        bTreeEditor.GetAllNodeData();
+    }
+
+
+    private void GetAllNodeData()
+    {
+        var getCompositeNodeData = GetDerivedClassNames.GetDerivedClasses<Node>();
+        foreach (var node in getCompositeNodeData)
+        {
+            if (node.Name == "Sequence" || node.Name == "Fallback" || node.Name == "Parallel")
+                nodeTypes["Composites"].Add(node.Name);
+        }
+
+        var getConditionNodeData = GetDerivedClassNames.GetDerivedClasses<Condition>();
+        foreach (var node in getConditionNodeData)
+            nodeTypes["Conditions"].Add(node.Name);
+
+        var getActionNodeData = GetDerivedClassNames.GetDerivedClasses<mikealpha.Action>();
+        foreach (var node in getActionNodeData)
+            nodeTypes["Actions"].Add(node.Name);
     }
 
     private void OnGUI()
     {
-        DrawPanel();
+        CheckGOAiTree();
+        if (aiTree != null)
+        {
+            DrawPanel();
 
-        GUI.BeginGroup(new Rect(panelWidth, 0, position.width - panelWidth, position.height));
-        DrawNodes(Event.current);
-        DrawConnections(Event.current);
-        ProcessEvents(Event.current);
-        GUI.EndGroup();
+            GUILayout.BeginHorizontal(EditorStyles.toolbar);
+            if (GUILayout.Button("Save Tree", EditorStyles.toolbarButton))
+                SaveAsset();
 
-        if (GUI.changed)
-            Repaint();
+            //if (GUILayout.Button("Load Tree", EditorStyles.toolbarButton))
+            //    LoadAsset();
 
+            GUILayout.EndHorizontal();
+
+            GUI.BeginGroup(new Rect(panelWidth, 0, position.width - panelWidth, position.height));
+            DrawNodes(Event.current);
+            DrawConnections(Event.current);
+            ProcessEvents(Event.current);
+            GUI.EndGroup();
+
+            if (GUI.changed)
+                Repaint();
+        }
+
+    }
+
+    private void CheckGOAiTree()
+    {
+        var go = Selection.activeGameObject;
+        if (go != null)
+        {
+            if (go.GetComponent<AITree>() != null)
+            {
+                aiTree = go.GetComponent<AITree>();
+                if (!IsSelected && aiTree.saveData != null)
+                {
+
+                    if (aiTree.saveData.Nodes != null && aiTree.saveData.Nodes.Count > 0)
+                    {
+                        nodes = aiTree.saveData.Nodes;
+                        if (aiTree.saveData.Connections_2 != null)
+                        {
+                            //connections = aiTree.saveData.Connections;
+                            foreach(var conn in aiTree.saveData.Connections_2)
+                                connections.Add((conn.parent, conn.child));
+                        }
+                    }
+                    else
+                    {
+                        object[] args = { null };
+
+                        Assembly assembly = Assembly.Load("Assembly-CSharp");
+                        Type type = assembly.GetType("mikealpha.Fallback");
+
+                        Node nodeData = (Node)Activator.CreateInstance(type, args);
+                        Vector2 position = new Vector2(panelWidth + 10, panelRect.height / 2);
+
+
+                        var node = new BehaviourTreeNode("RootNode", position, nodeData, false, true);
+                        nodes.Add(node);
+                    }
+
+                    IsSelected = true;
+                }
+            }
+            else
+                aiTree = null;
+
+            if (Selection.activeGameObject == null)
+            {
+                aiTree = null;
+                IsSelected = false;
+            }
+        }
     }
 
     private void DrawNodes(Event e)
@@ -39,7 +142,7 @@ public class BehaviorTreeEditor : EditorWindow
         var boxStyle = new GUIStyle(GUI.skin.box);
         boxStyle.normal.background = MakeTexture(1, 1, Color.green);
 
-        foreach (var node in nodes) 
+        foreach (var node in nodes)
         {
             Vector2 mousePos = e.mousePosition;
             if (node.InNode.Contains(mousePos))
@@ -77,10 +180,14 @@ public class BehaviorTreeEditor : EditorWindow
             Handles.DrawBezier(startPos, endPos, startPos + Vector3.right * 5, endPos + Vector3.left * 5, Color.red, null, 3f);
             TryConnectNodes(endPos);
         }
-        
-        foreach (var conn in connections)
+
+        if (connections != null && !IsConnectionloaded)
         {
-            DrawConnectionInternal(conn.Item1, conn.Item2);
+            foreach (var conn in connections)
+            {
+                DrawConnectionInternal(conn.Item1, conn.Item2);
+            }
+            //IsConnectionloaded = true;
         }
 
         SceneView.RepaintAll();
@@ -91,8 +198,9 @@ public class BehaviorTreeEditor : EditorWindow
         for (int i = 0; i < connections.Count; i++)
         {
             var connection = connections[i];
-            if(connection.Item2 == node)
+            if (connection.Item2 == node)
             {
+                connection.Item1.node.RemoveChildNode(connection.Item2.node);
                 connections.RemoveAt(i);
                 Repaint();
                 return;
@@ -100,26 +208,80 @@ public class BehaviorTreeEditor : EditorWindow
         }
     }
 
+    void LoadAsset()
+    {
+        string path = EditorUtility.OpenFilePanel("Load Tree", "", "tree");
+        if (string.IsNullOrEmpty(path))
+        {
+            var formatter = new BinaryFormatter();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                var saveData = (BehaviorTreeSaveData)formatter.Deserialize(stream);
+                nodes = saveData.Nodes;
+                connections = saveData.Connections;
+            }
+        }
+    }
+
+    void SaveAsset()
+    {
+        try
+        {
+            BehaviorTreeSaveData saveData = aiTree.saveData;
+
+            saveData.Nodes = nodes;
+            //saveData.Connections = connections;
+
+            if (saveData.Connections_2 == null)
+                saveData.Connections_2 = new List<BehaviourTreeConnections>();
+
+            foreach(var conn in connections)
+                saveData.Connections_2.Add(new BehaviourTreeConnections { parent = conn.Item1, child = conn.Item2 });
+
+            EditorUtility.SetDirty(saveData);
+            AssetDatabase.SaveAssetIfDirty(saveData);
+            AssetDatabase.Refresh();
+            Debug.Log("Tree saved");
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
+    }
+
     private void DrawConnectionInternal(BehaviourTreeNode fromNode, BehaviourTreeNode toNode)
     {
         Vector3 start = new Vector3(fromNode.OutNode.center.x, fromNode.OutNode.center.y, 0);
         Vector3 end = new Vector3(toNode.InNode.center.x, toNode.InNode.center.y, 0);
-        Handles.DrawBezier(start,end, start + Vector3.right * 5, end + Vector3.left * 5,Color.red,null,3f);
+        Handles.DrawBezier(start, end, start + Vector3.right * 5, end + Vector3.left * 5, Color.red, null, 3f);
+
+        if (!connections.Contains((fromNode, toNode)))
+        {
+            if (fromNode.node != null && toNode.node != null)
+            {
+                fromNode.node.UpdateChildNode(toNode.node);
+
+                if (aiTree.saveData.Connections_2 == null)
+                    aiTree.saveData.Connections_2 = new List<BehaviourTreeConnections>();
+
+                aiTree.saveData.Connections_2.Add(new BehaviourTreeConnections { parent = fromNode, child = toNode });
+            }
+        }
     }
 
     private Vector3 endPos;
     private void ProcessEvents(Event e)
     {
         switch (e.type)
-        { 
+        {
             case EventType.MouseDown:
                 if (e.button == 1)
                 {
-                    CreateContectMenu(e.mousePosition);
+                    //CreateContectMenu(e.mousePosition);
                 }
-                else if(e.button == 0)
+                else if (e.button == 0)
                 {
-                    if(selectedNode != null)
+                    if (selectedNode != null)
                     {
                         //TryConnectNodes(e.mousePosition);
                     }
@@ -130,16 +292,16 @@ public class BehaviorTreeEditor : EditorWindow
                 }
                 break;
             case EventType.MouseDrag:
-                if(e.button == 0)
+                if (e.button == 0)
                 {
-                    if(startPos != Vector3.zero)
+                    if (startPos != Vector3.zero)
                         endPos = e.mousePosition;
-                    
+
                     OnDragSelectedNode(e);
                 }
                 break;
             case EventType.MouseUp:
-                if(e.button == 0)
+                if (e.button == 0)
                 {
                     selectedNode = null;
                     draggingNode = null;
@@ -151,41 +313,67 @@ public class BehaviorTreeEditor : EditorWindow
         Repaint();
     }
 
+
+    Rect panelRect;
     private void DrawPanel()
     {
-        Rect panelRect = new Rect(0, 0, panelWidth, position.height);
+        panelRect = new Rect(0, 0, panelWidth, position.height);
         GUI.Box(panelRect, "Actions");
 
         GUILayout.BeginArea(panelRect);
         GUILayout.Space(10);
 
-        GUILayout.Label("Node Type:");
-        selectedNodeType = EditorGUILayout.Popup(selectedNodeType, nodeTypes);
-
-        if (GUILayout.Button("Create Node"))
+        GUILayout.Label("");
+        foreach (var node in nodeTypes)
         {
-            Vector2 position = new Vector2(panelWidth + 10, panelRect.height / 2);
-            CreateNode(position, nodeTypes[selectedNodeType]);
+            EditorGUILayout.LabelField(node.Key.ToUpper());
+            var nodeLists = node.Value;
+            for (int i = 0; i < nodeLists.Count; i++)
+            {
+                if (GUILayout.Button(nodeLists[i]))
+                {
+                    try
+                    {
+                        Vector2 position = new Vector2(panelWidth + 10, panelRect.height / 2);
+
+                        Assembly assembly = Assembly.Load("Assembly-CSharp");
+                        Type type = assembly.GetType("mikealpha." + nodeLists[i]);
+                        
+                        object[] args = { null };
+                        var InNode = true;
+                        var OutNode = true;
+                        if (type.BaseType.Name == "Action" || type.BaseType.Name == "Condition") {
+                            args[0] = aiTree.transform;
+                            InNode = true;
+                            OutNode = false;
+                        }
+
+                        Node nodeData = (Node)Activator.CreateInstance(type, args);
+                        CreateNode(position, nodeData, InNode, OutNode, nodeLists[i]);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogException(ex);
+                    }
+                }
+            }
         }
 
         GUILayout.EndArea();
     }
 
-    private void CreateNode(Vector2 position, string nodeType = "Default")
+    private void CreateNode(Vector2 position, Node nodeData, bool InNode, bool OutNode,string nodeName = "Default")
     {
-        //BehaviourTreeNode newNode = new BehaviourTreeNode
-        //{
-        //    rect = new Rect(position.x, position.y, 150, 75),
-        //    name = nodeType
-        //};
-        //nodes.Add(newNode);
+        var node = new BehaviourTreeNode(nodeName, position, nodeData, InNode, OutNode);
+        nodes.Add(node);
     }
 
     private void CreateContectMenu(Vector2 mousePos)
     {
         GenericMenu menu = new GenericMenu();
-        menu.AddItem(new GUIContent("Add Node"), false, () => {
-            var node = new BehaviourTreeNode("Node " + nodes.Count, mousePos, null);
+        menu.AddItem(new GUIContent("Add Node"), false, () =>
+        {
+            var node = new BehaviourTreeNode("Node " + nodes.Count, mousePos, null, true, true);
             nodes.Add(node);
         });
         menu.ShowAsContext();
@@ -193,13 +381,13 @@ public class BehaviorTreeEditor : EditorWindow
 
     private void TryConnectNodes(Vector2 mousePos)
     {
-        foreach (var node in nodes) 
+        foreach (var node in nodes)
         {
             if (node.InNode.Contains(mousePos) && node != selectedNode)
             {
                 connections.Add((selectedNode, node));
                 selectedNode = null;
-                IsDraggingConnection=false;
+                IsDraggingConnection = false;
                 break;
             }
         }
@@ -210,7 +398,7 @@ public class BehaviorTreeEditor : EditorWindow
     private Vector3 startPos;
     private void SelectNode(Vector2 mousePos)
     {
-        foreach(var node in nodes)
+        foreach (var node in nodes)
         {
             if (node.rect.Contains(mousePos))
             {

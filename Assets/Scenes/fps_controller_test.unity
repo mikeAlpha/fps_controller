@@ -10080,6 +10080,7 @@ MonoBehaviour:
   health:
     MaxHealth: 0
     Currenthealth: 0
+  saveData: {fileID: 11400000, guid: 6a7f45e8a5975b0489a7bcb97960cef6, type: 2}
 --- !u!195 &8659334765419966367
 NavMeshAgent:
   m_ObjectHideFlags: 0

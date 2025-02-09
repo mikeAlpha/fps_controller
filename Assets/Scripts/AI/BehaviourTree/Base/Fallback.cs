@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace mikealpha
 {
-
     public class Fallback : Node
     {
-
         public Fallback(List<Node> nodes)
         {
             childNodes = nodes;
