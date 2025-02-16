@@ -17,21 +17,6 @@ public class AITree : BaseBT
 
     public AiHealth health;
 
-    public BehaviorTreeSaveData saveData;
-
-    protected override Node CreateNode()
-    {
-        Node root = new Fallback(new List<Node>() {
-            new Sequence(new List<Node>
-            {
-                new EnemyWithinRange(transform)
-            }),
-            new Patrol(transform)
-            });
-
-        return root;
-    }
-
     protected override void Start()
     {
         health = new AiHealth(this);

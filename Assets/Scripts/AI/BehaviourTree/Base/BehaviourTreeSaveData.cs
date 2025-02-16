@@ -6,7 +6,6 @@ using UnityEngine;
 [System.Serializable]
 public class BehaviorTreeSaveData : ScriptableObject
 {
-    [HideInInspector]
     public List<BehaviourTreeNode> Nodes;
 
     public List<(BehaviourTreeNode, BehaviourTreeNode)> Connections;

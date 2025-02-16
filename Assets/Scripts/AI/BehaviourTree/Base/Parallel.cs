@@ -6,9 +6,9 @@ namespace mikealpha
 {
     public class Parallel : Node
     {
-        public Parallel(List<Node> nodes)
+        public Parallel()
         {
-            childNodes = nodes;
+            //childNodes = nodes;
         }
 
         public override status UpdateStatus(float tick)

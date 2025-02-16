@@ -22,11 +22,11 @@ namespace mikealpha
         public bool OutNodeBool;
 
 
-        public BehaviourTreeNode(string name, Vector2 pos, Node node, bool inNodeBool, bool outNodeBool)
+        public BehaviourTreeNode(string name, Vector2 pos/*, Node node*/, bool inNodeBool, bool outNodeBool)
         {
             this.name = name;
             this.rect = new Rect(pos.x, pos.y, 150, 50);
-            this.node = node;
+            //this.node = node;
             this.InNodeBool = inNodeBool;
             this.OutNodeBool = outNodeBool;
 

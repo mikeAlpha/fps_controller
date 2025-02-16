@@ -16,13 +16,14 @@ namespace mikealpha
     [System.Serializable]
     public abstract class Node
     {
-        protected List<Node> childNodes = new List<Node>();
+        public List<Node> childNodes = new List<Node>();
         public virtual status UpdateStatus(float tick) { return status.failure; }
 
         public void UpdateChildNode(Node node) 
         {
             if (childNodes != null)
             {
+                Debug.Log("Added");
                 childNodes.Add(node);
             }
         }

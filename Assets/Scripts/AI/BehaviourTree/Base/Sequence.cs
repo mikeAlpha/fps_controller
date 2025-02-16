@@ -6,9 +6,9 @@ namespace mikealpha
 {
     public class Sequence : Node
     {
-        public Sequence(List<Node> nodes)
+        public Sequence()
         {
-          childNodes = nodes;
+          //childNodes = nodes;
         }
 
         public override status UpdateStatus(float tick)

@@ -6,9 +6,9 @@ namespace mikealpha
 {
     public class Fallback : Node
     {
-        public Fallback(List<Node> nodes)
+        public Fallback()
         {
-            childNodes = nodes;
+            //childNodes = nodes;
         }
 
         public override status UpdateStatus(float tick)

@@ -16,8 +16,8 @@ MonoBehaviour:
   - name: RootNode
     rect:
       serializedVersion: 2
-      x: 479
-      y: 62
+      x: 268
+      y: 116
       width: 150
       height: 50
     InNode:
@@ -28,8 +28,8 @@ MonoBehaviour:
       height: 0
     OutNode:
       serializedVersion: 2
-      x: 554
-      y: 112
+      x: 343
+      y: 166
       width: 10
       height: 10
     InNodeBool: 0
@@ -37,20 +37,20 @@ MonoBehaviour:
   - name: Sequence
     rect:
       serializedVersion: 2
-      x: 479
-      y: 204.89998
+      x: 263
+      y: 278.1
       width: 150
       height: 50
     InNode:
       serializedVersion: 2
-      x: 554
-      y: 194.89998
+      x: 338
+      y: 268.1
       width: 10
       height: 10
     OutNode:
       serializedVersion: 2
-      x: 554
-      y: 254.89998
+      x: 338
+      y: 328.1
       width: 10
       height: 10
     InNodeBool: 1
@@ -58,14 +58,14 @@ MonoBehaviour:
   - name: Patrol
     rect:
       serializedVersion: 2
-      x: 149
-      y: 308.9
+      x: 104
+      y: 498.1
       width: 150
       height: 50
     InNode:
       serializedVersion: 2
-      x: 224
-      y: 298.9
+      x: 179
+      y: 488.1
       width: 10
       height: 10
     OutNode:
@@ -79,14 +79,14 @@ MonoBehaviour:
   - name: EnemyWithinRange
     rect:
       serializedVersion: 2
-      x: 866
-      y: 319.9
+      x: 470
+      y: 501.09998
       width: 150
       height: 50
     InNode:
       serializedVersion: 2
-      x: 941
-      y: 309.9
+      x: 545
+      y: 491.09998
       width: 10
       height: 10
     OutNode:
@@ -102,8 +102,8 @@ MonoBehaviour:
       name: RootNode
       rect:
         serializedVersion: 2
-        x: 479
-        y: 62
+        x: 268
+        y: 116
         width: 150
         height: 50
       InNode:
@@ -114,8 +114,8 @@ MonoBehaviour:
         height: 0
       OutNode:
         serializedVersion: 2
-        x: 554
-        y: 112
+        x: 343
+        y: 166
         width: 10
         height: 10
       InNodeBool: 0
@@ -124,20 +124,20 @@ MonoBehaviour:
       name: Sequence
       rect:
         serializedVersion: 2
-        x: 479
-        y: 204.89998
+        x: 263
+        y: 278.1
         width: 150
         height: 50
       InNode:
         serializedVersion: 2
-        x: 554
-        y: 194.89998
+        x: 338
+        y: 268.1
         width: 10
         height: 10
       OutNode:
         serializedVersion: 2
-        x: 554
-        y: 254.89998
+        x: 338
+        y: 328.1
         width: 10
         height: 10
       InNodeBool: 1
@@ -146,20 +146,20 @@ MonoBehaviour:
       name: Sequence
       rect:
         serializedVersion: 2
-        x: 479
-        y: 204.89998
+        x: 263
+        y: 278.1
         width: 150
         height: 50
       InNode:
         serializedVersion: 2
-        x: 554
-        y: 194.89998
+        x: 338
+        y: 268.1
         width: 10
         height: 10
       OutNode:
         serializedVersion: 2
-        x: 554
-        y: 254.89998
+        x: 338
+        y: 328.1
         width: 10
         height: 10
       InNodeBool: 1
@@ -168,14 +168,14 @@ MonoBehaviour:
       name: Patrol
       rect:
         serializedVersion: 2
-        x: 149
-        y: 308.9
+        x: 104
+        y: 498.1
         width: 150
         height: 50
       InNode:
         serializedVersion: 2
-        x: 224
-        y: 298.9
+        x: 179
+        y: 488.1
         width: 10
         height: 10
       OutNode:
@@ -190,20 +190,20 @@ MonoBehaviour:
       name: Sequence
       rect:
         serializedVersion: 2
-        x: 479
-        y: 204.89998
+        x: 263
+        y: 278.1
         width: 150
         height: 50
       InNode:
         serializedVersion: 2
-        x: 554
-        y: 194.89998
+        x: 338
+        y: 268.1
         width: 10
         height: 10
       OutNode:
         serializedVersion: 2
-        x: 554
-        y: 254.89998
+        x: 338
+        y: 328.1
         width: 10
         height: 10
       InNodeBool: 1
@@ -212,14 +212,14 @@ MonoBehaviour:
       name: EnemyWithinRange
       rect:
         serializedVersion: 2
-        x: 866
-        y: 319.9
+        x: 470
+        y: 501.09998
         width: 150
         height: 50
       InNode:
         serializedVersion: 2
-        x: 941
-        y: 309.9
+        x: 545
+        y: 491.09998
         width: 10
         height: 10
       OutNode:
