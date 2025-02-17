@@ -277,7 +277,7 @@ public class EventHandler : MonoBehaviour
         var callback = GetDelegate(obj, eventname) as Action;
         if (callback != null)
         {
-            Debug.Log("Here");
+            //Debug.Log("Here");
             callback();
         }
     }

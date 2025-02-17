@@ -16,6 +16,7 @@ namespace mikealpha
             for(int i = 0; i<childNodes.Count;i++)
             {
                 var status = childNodes[i].UpdateStatus(tick);
+                //Debug.Log("status====" + childNodes[i].GetType().Name + "====" + status);
                 if (status == status.running)
                     return status.running;
                 else if (status == status.failure)

@@ -22,8 +22,10 @@ namespace mikealpha
             Collider[] col = Physics.OverlapSphere(mTransform.position, mTree.ViewRadius);
             foreach (Collider c in col)
             {
+                //Debug.Log(" Not Seen");
                 if (c.gameObject.CompareTag("Player"))
                 {
+                    Debug.Log("Seen");
                     var dir = (c.transform.position - mTransform.position).normalized;
                     float angleWithEnemy = Vector3.Angle(mTransform.forward, dir);
                     var dst = Vector3.Distance(mTransform.position, c.transform.position);

@@ -26,7 +26,9 @@ namespace mikealpha
         private void Update()
         {
             if (mRootNode != null)
+            {
                 mRootNode.UpdateStatus(Tick);
+            }
         }
 
         protected void CreateNode()

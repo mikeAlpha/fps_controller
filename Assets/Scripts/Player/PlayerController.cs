@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.GetMouseDown(0))
         {
-            EventHandler.ExecuteEvent(GameEvents.OnPlayerFire);
+            EventHandler.ExecuteEvent(gameObject,GameEvents.OnPlayerFire);
             anim.SetBool("IsShooting", true);
         }
         else

@@ -27,13 +27,13 @@ namespace mikealpha
 
         protected override void DoAction(float tick)
         {
+
             Vector3 pos = mWaypoints[mCurrent_index].position;
             pos.y = mTransform.position.y;
 
             var navMesh = mTransform.GetComponent<NavMeshAgent>();
-
             navMesh.destination = pos;
-
+            navMesh.isStopped = false;
             //var direction = navMesh.velocity.normalized;
 
             var anim = mTransform.GetComponent<AITree>().anim;

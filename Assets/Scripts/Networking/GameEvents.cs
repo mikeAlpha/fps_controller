@@ -17,4 +17,5 @@ public static class GameEvents
     public static string OnUpdateCreateRoomInfo = "OnUpdateCreateRoomInfo";
 
     public static string OnAiHealthUpdate = "OnAiHealthUpdate";
+    public static string OnAiFireUpdate = "OnAiFireUpdate";
 }
