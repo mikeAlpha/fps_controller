@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 8396.5205, g: 7880.927, b: 8067.54, a: 1}
+  m_IndirectSpecularColor: {r: 8396.513, g: 7880.923, b: 8067.5244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10061,7 +10061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b821820ecc92b19419ba1f5359f7fe02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveData: {fileID: 11400000, guid: 6a7f45e8a5975b0489a7bcb97960cef6, type: 2}
+  saveData: {fileID: 11400000, guid: b44632b285decb5479657d3ca0b07ca6, type: 2}
   Waypoints:
   - {fileID: 1993621445}
   - {fileID: 1504027644}

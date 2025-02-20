@@ -116,6 +116,7 @@ public class BehaviorTreeEditor : EditorWindow
 
 
                         var node = new BehaviourTreeNode("RootNode", position, false, true);
+                        node.IsSelected = false;
                         nodes.Add(node);
                     }
 
@@ -140,7 +141,7 @@ public class BehaviorTreeEditor : EditorWindow
             startPos = conn.parent.OutNode.center;
             endPos = conn.child.InNode.center;
             Handles.DrawBezier(startPos, endPos, startPos + Vector3.right * 5, endPos + Vector3.left * 5, Color.red, null, 3f);
-            Debug.Log("Here====update conns");
+            //Debug.Log("Here====update conns");
         }
     }
 
@@ -262,8 +263,8 @@ public class BehaviorTreeEditor : EditorWindow
         Vector3 end = new Vector3(toNode.InNode.center.x, toNode.InNode.center.y, 0);
         Handles.DrawBezier(start, end, start + Vector3.right * 5, end + Vector3.left * 5, Color.red, null, 3f);
 
-        Debug.Log("Update conns=====");
-
+        //Debug.Log("Update conns=====");
+        
         if (!connections.Contains((fromNode, toNode)))
         {
             //if (fromNode.node != null && toNode.node != null)
@@ -312,6 +313,11 @@ public class BehaviorTreeEditor : EditorWindow
             case EventType.MouseUp:
                 if (e.button == 0)
                 {
+                    if (selectedNode != null)
+                        selectedNode.IsSelected = false;
+                    if(draggingNode != null)
+                        draggingNode.IsSelected = false;
+
                     selectedNode = null;
                     draggingNode = null;
                     IsDraggingConnection = false;
@@ -401,6 +407,7 @@ public class BehaviorTreeEditor : EditorWindow
             if (node.rect.Contains(mousePos))
             {
                 draggingNode = node;
+                //draggingNode.IsSelected = true;
                 break;
             }
 
@@ -416,6 +423,7 @@ public class BehaviorTreeEditor : EditorWindow
                 startPos = mousePos;
                 endPos = startPos;
                 selectedNode = node;
+                //selectedNode.IsSelected = true;
             }
         }
     }

@@ -39,6 +39,10 @@ namespace mikealpha
                 {
                     mAgent.destination = target.position;
                     mAgent.isStopped = true;
+
+                    var rot = Quaternion.LookRotation(target.position - mTransform.position);
+                    mTransform.rotation = rot;
+
                     var anim = mITree.anim;
                     anim.SetFloat("SpeedX", 0, 0.1f, 0.1f);
                     anim.SetFloat("SpeedY", /*Mathf.Abs(direction.z)*/0.0f, 0.1f, 0.1f);

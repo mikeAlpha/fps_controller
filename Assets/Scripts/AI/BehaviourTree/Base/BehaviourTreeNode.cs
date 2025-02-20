@@ -21,6 +21,7 @@ namespace mikealpha
         [HideInInspector]
         public bool OutNodeBool;
 
+        public bool IsSelected = false;
 
         public BehaviourTreeNode(string name, Vector2 pos/*, Node node*/, bool inNodeBool, bool outNodeBool)
         {
@@ -32,18 +33,18 @@ namespace mikealpha
 
             if (OutNodeBool)
             {
-                Debug.Log("Here---1");
+                //Debug.Log("Here---1");
                 this.OutNode = new Rect(this.rect.center.x, this.rect.yMax, 10, 10);
             }
 
             if (InNodeBool)
             {
-                Debug.Log("Here---2");
+                //Debug.Log("Here---2");
                 this.InNode = new Rect(this.rect.center.x, this.rect.yMin - 10, 10, 10);
             }
             else if (InNodeBool && OutNodeBool)
             {
-                Debug.Log("Here---3");
+                //Debug.Log("Here---3");
                 this.InNode = new Rect(this.rect.center.x, this.rect.yMin - 10, 10, 10);
                 this.OutNode = new Rect(this.rect.center.x, this.rect.yMax, 10, 10);
             }
@@ -51,7 +52,16 @@ namespace mikealpha
 
         public void Draw(GUIStyle InNodeStyle, GUIStyle OutNodeStyle)
         {
-            GUI.Box(rect, name);
+
+            //Debug.Log(name + "=====" + IsSelected);
+
+            //if(!IsSelected)
+                GUI.Box(rect, name);
+            //else
+            //{
+            //    GUI.backgroundColor = Color.green;
+            //    GUI.Box(rect, name);
+            //}
 
             if (InNodeStyle == null && OutNodeStyle != null)
             {
@@ -86,18 +96,18 @@ namespace mikealpha
 
             if (OutNodeBool)
             {
-                Debug.Log("Here---1");
+                //Debug.Log("Here---1");
                 this.OutNode = new Rect(this.rect.center.x, this.rect.yMax, 10, 10);
             }
 
             if (InNodeBool)
             {
-                Debug.Log("Here---2");
+                //Debug.Log("Here---2");
                 this.InNode = new Rect(this.rect.center.x, this.rect.yMin - 10, 10, 10);
             }
             else if (InNodeBool && OutNodeBool)
             {
-                Debug.Log("Here---3");
+                //Debug.Log("Here---3");
                 this.InNode = new Rect(this.rect.center.x, this.rect.yMin - 10, 10, 10);
                 this.OutNode = new Rect(this.rect.center.x, this.rect.yMax, 10, 10);
             }
