@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.iOS;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerWeapon : BaseWeapon
 {
 
-    public bool CurrentlySelected = false;
-
     protected override void OnEnable()
     {
+        EventHandler.RegisterEvent(transform.root.gameObject, GameEvents.OnPlayerDied, HideObject);
         EventHandler.RegisterEvent(transform.root.gameObject,GameEvents.OnPlayerFire, Shoot);
     }
 
     protected override void OnDisable()
     {
+        EventHandler.UnregisterEvent(transform.root.gameObject, GameEvents.OnPlayerDied, HideObject);
         EventHandler.UnregisterEvent(transform.root.gameObject,GameEvents.OnPlayerFire, Shoot);
     }
 
@@ -27,12 +29,15 @@ public class PlayerWeapon : BaseWeapon
             if (transform.root.GetComponent<PlayerController>() != null)
             {
                 var MuzzleObject = PoolManager.Instance.GetObject<PoolableObject>("muzzle_flash");
+                MuzzleObject.gameObject.SetActive(true);
                 MuzzleObject.GetComponent<DestroyAsset>().mtag = "muzzle_flash";
 
                 if (MuzzleObject != null)
                 {
                     if (timer > 0)
+                    {
                         timer = 0f;
+                    }
 
                     FireSource.Stop();
 
@@ -59,11 +64,29 @@ public class PlayerWeapon : BaseWeapon
                             Vector3 pos = hit.point;
                             Vector3 norm = hit.normal;
 
-                            //Instantiate(BulletImpact, pos, Quaternion.LookRotation(norm));
-                            var BulletImpact = PoolManager.Instance.GetObject<PoolableObject>("bullet_impact");
-                            BulletImpact.GetComponent<DestroyAsset>().mtag = "bullet_impact";
-                            BulletImpact.transform.position = pos;
-                            BulletImpact.transform.rotation = Quaternion.LookRotation(norm);
+                            Debug.Log("ShotPlayer====" + hit.collider.gameObject);
+
+                            var hitObj = hit.collider.gameObject;
+
+                            if (hitObj.GetComponent<AITree>())
+                            {
+                                var blood_fx = PoolManager.Instance.GetObject<PoolableObject>("blood_fx");
+                                blood_fx.GetComponent<DestroyAsset>().mtag = "blood_fx";
+                                blood_fx.transform.position = pos;
+                                blood_fx.transform.rotation = Quaternion.LookRotation(norm);
+
+                                EventHandler.ExecuteEvent<float>(hitObj, GameEvents.OnAiHealthUpdate, -1);
+
+                            }
+                            else
+                            {
+
+                                //Instantiate(BulletImpact, pos, Quaternion.LookRotation(norm));
+                                var BulletImpact = PoolManager.Instance.GetObject<PoolableObject>("bullet_impact");
+                                BulletImpact.GetComponent<DestroyAsset>().mtag = "bullet_impact";
+                                BulletImpact.transform.position = pos;
+                                BulletImpact.transform.rotation = Quaternion.LookRotation(norm);
+                            }
                         }
                     }
                 }

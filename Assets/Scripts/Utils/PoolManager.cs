@@ -49,6 +49,8 @@ public class PoolManager : MonoBehaviour
     {
         if (!poolDictionary.ContainsKey(tag))
         {
+            Debug.LogWarning($"Pool with tag '{tag}' doesn't exist.");
+            Destroy(obj);
             return;
         }
 

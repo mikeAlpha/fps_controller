@@ -15,6 +15,7 @@ public class DestroyAsset : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > time)
         {
+            gameObject.SetActive(false);
             PoolManager.Instance.ReturnObject(mtag, GetComponent<PoolableObject>());
             timer = 0f;
         }

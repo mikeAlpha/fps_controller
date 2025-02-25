@@ -6,16 +6,21 @@ using UnityEngine;
 [Serializable]
 public class PlayerHealth : BaseHealth
 {
-    public PlayerHealth()
-    {
-        Currenthealth = MaxHealth;
+    private GameObject player;
 
-        EventHandler.RegisterEvent<float>(GameEvents.OnPlayerHealthUpdate,UpdateHealth);
+    public PlayerHealth(GameObject gO)
+    {
+        player = gO;
+        Currenthealth = MaxHealth;
+        
+        if(player != null)
+        EventHandler.RegisterEvent<float>(player,GameEvents.OnPlayerHealthUpdate,UpdateHealth);
     }
 
     ~PlayerHealth()
     {
-        EventHandler.UnregisterEvent<float>(GameEvents.OnPlayerHealthUpdate, UpdateHealth);
+        if(player != null) 
+        EventHandler.UnregisterEvent<float>(player,GameEvents.OnPlayerHealthUpdate, UpdateHealth);
     }
 
     protected override void UpdateHealth(float health)
@@ -23,7 +28,7 @@ public class PlayerHealth : BaseHealth
         base.UpdateHealth(health);
         if (Currenthealth <= 0)
         {
-
+            EventHandler.ExecuteEvent(player,GameEvents.OnPlayerDied);
         }
     }
 }

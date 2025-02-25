@@ -8,6 +8,7 @@ public static class GameEvents
     public static string OnMouseUpdate = "OnMouseUpdate";
     public static string OnPlayerFire = "OnPlayerFire";
     public static string OnPlayerHealthUpdate = "OnPlayerHealthUpdate";
+    public static string OnPlayerDied = "OnPlayerDied";
 
     public static string OnSetPlayerId = "OnSetPlayerId";
     public static string OnUpdatePlayerInfo = "OnUpdatePlayerInfo";
@@ -18,4 +19,5 @@ public static class GameEvents
 
     public static string OnAiHealthUpdate = "OnAiHealthUpdate";
     public static string OnAiFireUpdate = "OnAiFireUpdate";
+    public static string OnAiDead = "OnAiDead";
 }

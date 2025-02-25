@@ -23,7 +23,7 @@ namespace mikealpha
             foreach (Collider c in col)
             {
                 //Debug.Log(" Not Seen");
-                if (c.gameObject.CompareTag("Player"))
+                if (c.gameObject.CompareTag("Player") && c.GetComponent<PlayerController>().IsPlayerActive)
                 {
                     Debug.Log("Seen");
                     var dir = (c.transform.position - mTransform.position).normalized;

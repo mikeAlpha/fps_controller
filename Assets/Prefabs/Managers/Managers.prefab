@@ -80,3 +80,7 @@ MonoBehaviour:
     prefab: {fileID: 2435590112867305220, guid: 240a73e990d5e4548bb69725259de208,
       type: 3}
     size: 5
+  - tag: blood_fx
+    prefab: {fileID: 6036905290157017866, guid: 6337d9c75d9eee8409d2f3cfb00a984b,
+      type: 3}
+    size: 5

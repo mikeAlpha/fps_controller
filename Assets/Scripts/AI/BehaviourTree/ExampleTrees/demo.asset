@@ -34,6 +34,7 @@ MonoBehaviour:
       height: 10
     InNodeBool: 0
     OutNodeBool: 1
+    IsSelected: 0
   - name: Sequence
     rect:
       serializedVersion: 2
@@ -55,6 +56,7 @@ MonoBehaviour:
       height: 10
     InNodeBool: 1
     OutNodeBool: 1
+    IsSelected: 0
   - name: EnemyWithinRange
     rect:
       serializedVersion: 2
@@ -76,6 +78,7 @@ MonoBehaviour:
       height: 0
     InNodeBool: 1
     OutNodeBool: 0
+    IsSelected: 0
   - name: Attack
     rect:
       serializedVersion: 2
@@ -97,6 +100,7 @@ MonoBehaviour:
       height: 0
     InNodeBool: 1
     OutNodeBool: 0
+    IsSelected: 0
   - name: Patrol
     rect:
       serializedVersion: 2
@@ -118,6 +122,29 @@ MonoBehaviour:
       height: 0
     InNodeBool: 1
     OutNodeBool: 0
+    IsSelected: 0
+  - name: IsPlayerDead
+    rect:
+      serializedVersion: 2
+      x: 482
+      y: 317.5
+      width: 150
+      height: 50
+    InNode:
+      serializedVersion: 2
+      x: 557
+      y: 307.5
+      width: 10
+      height: 10
+    OutNode:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    InNodeBool: 1
+    OutNodeBool: 0
+    IsSelected: 0
   Connections_2:
   - parent:
       name: RootNode
@@ -141,6 +168,7 @@ MonoBehaviour:
         height: 10
       InNodeBool: 0
       OutNodeBool: 1
+      IsSelected: 0
     child:
       name: Sequence
       rect:
@@ -163,6 +191,7 @@ MonoBehaviour:
         height: 10
       InNodeBool: 1
       OutNodeBool: 1
+      IsSelected: 0
   - parent:
       name: Sequence
       rect:
@@ -185,6 +214,7 @@ MonoBehaviour:
         height: 10
       InNodeBool: 1
       OutNodeBool: 1
+      IsSelected: 0
     child:
       name: EnemyWithinRange
       rect:
@@ -207,6 +237,7 @@ MonoBehaviour:
         height: 0
       InNodeBool: 1
       OutNodeBool: 0
+      IsSelected: 0
   - parent:
       name: Sequence
       rect:
@@ -229,6 +260,7 @@ MonoBehaviour:
         height: 10
       InNodeBool: 1
       OutNodeBool: 1
+      IsSelected: 0
     child:
       name: Attack
       rect:
@@ -251,6 +283,7 @@ MonoBehaviour:
         height: 0
       InNodeBool: 1
       OutNodeBool: 0
+      IsSelected: 0
   - parent:
       name: RootNode
       rect:
@@ -273,6 +306,7 @@ MonoBehaviour:
         height: 10
       InNodeBool: 0
       OutNodeBool: 1
+      IsSelected: 0
     child:
       name: Patrol
       rect:
@@ -295,3 +329,234 @@ MonoBehaviour:
         height: 0
       InNodeBool: 1
       OutNodeBool: 0
+      IsSelected: 0
+  - parent:
+      name: RootNode
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 90
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      OutNode:
+        serializedVersion: 2
+        x: 316
+        y: 140
+        width: 10
+        height: 10
+      InNodeBool: 0
+      OutNodeBool: 1
+      IsSelected: 0
+    child:
+      name: Sequence
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 206.49998
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 241
+        y: 196.49998
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 241
+        y: 256.5
+        width: 10
+        height: 10
+      InNodeBool: 1
+      OutNodeBool: 1
+      IsSelected: 0
+  - parent:
+      name: Sequence
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 206.49998
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 241
+        y: 196.49998
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 241
+        y: 256.5
+        width: 10
+        height: 10
+      InNodeBool: 1
+      OutNodeBool: 1
+      IsSelected: 0
+    child:
+      name: EnemyWithinRange
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 315.5
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 154
+        y: 305.5
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      InNodeBool: 1
+      OutNodeBool: 0
+      IsSelected: 0
+  - parent:
+      name: Sequence
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 206.49998
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 241
+        y: 196.49998
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 241
+        y: 256.5
+        width: 10
+        height: 10
+      InNodeBool: 1
+      OutNodeBool: 1
+      IsSelected: 0
+    child:
+      name: Attack
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 318.5
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 347
+        y: 308.5
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      InNodeBool: 1
+      OutNodeBool: 0
+      IsSelected: 0
+  - parent:
+      name: RootNode
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 90
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      OutNode:
+        serializedVersion: 2
+        x: 316
+        y: 140
+        width: 10
+        height: 10
+      InNodeBool: 0
+      OutNodeBool: 1
+      IsSelected: 0
+    child:
+      name: Patrol
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 207.49998
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 483
+        y: 197.49998
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      InNodeBool: 1
+      OutNodeBool: 0
+      IsSelected: 0
+  - parent:
+      name: Sequence
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 206.49998
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 241
+        y: 196.49998
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 241
+        y: 256.5
+        width: 10
+        height: 10
+      InNodeBool: 1
+      OutNodeBool: 1
+      IsSelected: 0
+    child:
+      name: IsPlayerDead
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 317.5
+        width: 150
+        height: 50
+      InNode:
+        serializedVersion: 2
+        x: 557
+        y: 307.5
+        width: 10
+        height: 10
+      OutNode:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      InNodeBool: 1
+      OutNodeBool: 0
+      IsSelected: 0

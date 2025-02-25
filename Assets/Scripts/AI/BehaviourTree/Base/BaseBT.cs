@@ -16,7 +16,12 @@ namespace mikealpha
 
         private List<KeyValuePair<string,Node>> mNodes = new List<KeyValuePair<string, Node>>();
 
+        public bool IsAiactive = true; 
+
         protected abstract void Start();
+        protected abstract void OnEnable();
+
+        protected abstract void OnDisable();
 
         private void Awake()
         {
@@ -25,7 +30,7 @@ namespace mikealpha
 
         private void Update()
         {
-            if (mRootNode != null)
+            if (mRootNode != null && IsAiactive)
             {
                 mRootNode.UpdateStatus(Tick);
             }

@@ -26,7 +26,7 @@ public class AiHealth : BaseHealth
         base.UpdateHealth(health);
         if (Currenthealth <= 0)
         {
-
+            EventHandler.ExecuteEvent(aiController.gameObject, GameEvents.OnAiDead);
         }
     }
 }

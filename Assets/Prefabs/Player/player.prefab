@@ -1624,6 +1624,7 @@ MonoBehaviour:
   FireRate: 0.1
   FirePoint: {fileID: 295864383179291568}
   FireClip: {fileID: 8300000, guid: ecef72a7f5ee3c94e8cdae5503fc16b9, type: 3}
+  FireSpreadAngle: 0.05
   CurrentlySelected: 1
 --- !u!82 &6604716635984809822
 AudioSource:
@@ -5647,6 +5648,7 @@ MonoBehaviour:
   FireRate: 0.5
   FirePoint: {fileID: 8063592865458915895}
   FireClip: {fileID: 0}
+  FireSpreadAngle: 0.05
   CurrentlySelected: 1
 --- !u!1 &8480091035537201798
 GameObject:
@@ -5796,6 +5798,7 @@ MonoBehaviour:
   RaycastPoint: {fileID: 321316691698033809}
   anim: {fileID: 798019410525917768}
   tps_anim: {fileID: 841665848535797597}
+  IsPlayerActive: 1
   footstepClips:
   - {fileID: 8300000, guid: d1aa3733d8c45f34d8c4f4832b18408b, type: 3}
   - {fileID: 8300000, guid: 844efebf69b38334d8ba1a2a9a10520b, type: 3}

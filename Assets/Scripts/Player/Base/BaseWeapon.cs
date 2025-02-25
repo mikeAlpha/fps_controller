@@ -8,25 +8,28 @@ public abstract class BaseWeapon : MonoBehaviour
     [SerializeField] protected float FireRate = 0.5f;
     [SerializeField] protected Transform FirePoint;
     [SerializeField] protected AudioClip FireClip;
-
+    [SerializeField] protected float FireSpreadAngle = 0.05f;
     protected AudioSource FireSource;
 
     protected Transform FireRayCastSource;
     
     protected float timer = 0f;
 
+    public bool CurrentlySelected = false;
     protected virtual void Start()
     {
 
         if (transform.root.GetComponent<PlayerController>() != null)
             FireRayCastSource = transform.root.GetComponent<PlayerController>().RaycastPoint;
         else
-            FireRayCastSource = FirePoint; 
+            FireRayCastSource = transform.root.GetComponent<AITree>().RayCastPoint; 
 
         //FireRayCastSource = transform.root.GetComponent<PlayerController>().RaycastPoint;
         
         FireSource = transform.root.GetComponent<AudioSource>();
     }
+
+    protected virtual void HideObject() { gameObject.SetActive(false); }
 
     protected abstract void OnEnable();
 

@@ -52,8 +52,9 @@ public class PlayerController : MonoBehaviour
 
     public Transform RaycastPoint;
     public Animator anim, tps_anim;
+    public bool IsPlayerActive = true;
     public AudioClip[] footstepClips;
-    
+
     private AudioSource footstepSource;
 
     [SerializeField]
@@ -86,12 +87,21 @@ public class PlayerController : MonoBehaviour
     private float stepTimer = 0f;
     private Vector3 targetDirection;
 
+    private void OnEnable()
+    {
+        EventHandler.RegisterEvent(gameObject,GameEvents.OnPlayerDied, PlayerDied);
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.UnregisterEvent(gameObject,GameEvents.OnPlayerDied, PlayerDied);
+    }
+
     private void Awake()
     {
         Application.targetFrameRate = 120;
-
         inputManager = new InputManager();
-        playerHealth = new PlayerHealth();
+        playerHealth = new PlayerHealth(gameObject);
 
         EventHandler.ExecuteEvent<InputManager>(GameEvents.OnInputManagerUpdate, inputManager);
     }
@@ -110,11 +120,19 @@ public class PlayerController : MonoBehaviour
 
     protected void Update()
     {
-        UpdateInput();
-        MouseControl();
-        Move();
-        CheckShoot();
-        HandleFootsteps();
+        if (IsPlayerActive)
+        {
+            UpdateInput();
+            MouseControl();
+            Move();
+            CheckShoot();
+            HandleFootsteps();
+        }
+        else
+        {
+            playerVelocity.y += playerLocomotion.gravity * Time.deltaTime;
+            characterController.Move(playerVelocity * Time.deltaTime);
+        }
     }
 
     //private void rbMove()
@@ -197,6 +215,13 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("IsShooting", false);
         }
+    }
+
+    private void PlayerDied()
+    {
+        IsPlayerActive = false;
+        characterController.height = 0.7f;
+        anim.gameObject.SetActive(false);
     }
 
     private void Move()

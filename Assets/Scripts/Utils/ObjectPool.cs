@@ -46,6 +46,8 @@ public class ObjectPool<T> : IPool where T : PoolableObject
         if (obj != null)
         {
             obj.gameObject.SetActive(false);
+            obj.transform.position = Vector3.up * 10000f;
+            obj.transform.parent = null;
             objectPool.Enqueue(obj);
         }
     }
