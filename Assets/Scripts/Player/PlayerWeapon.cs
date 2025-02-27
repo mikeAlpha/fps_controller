@@ -75,7 +75,7 @@ public class PlayerWeapon : BaseWeapon
                                 blood_fx.transform.position = pos;
                                 blood_fx.transform.rotation = Quaternion.LookRotation(norm);
 
-                                EventHandler.ExecuteEvent<float>(hitObj, GameEvents.OnAiHealthUpdate, -1);
+                                EventHandler.ExecuteEvent<float>(hitObj, GameEvents.OnAiHealthUpdate, -5);
 
                             }
                             else

@@ -14,7 +14,9 @@ public class AITree : BaseBT
     public LayerMask /*EnemyLayer, */ObstacleLayer;
     public List<Transform> targets = new List<Transform>();
     public Animator anim;
+    public PlayerTPSController tps_controller;
     public AiHealth health;
+
 
     public Transform RayCastPoint;
 
@@ -35,9 +37,10 @@ public class AITree : BaseBT
 
     private void AiDead()
     {
-        IsAiactive = false;
+        tps_controller.DeadWeight();
         var navMesh = GetComponent<NavMeshAgent>();
         navMesh.isStopped = true;
+        IsAiactive = false;
         GetComponent<CapsuleCollider>().enabled = false;
         anim.Play("death");
     }

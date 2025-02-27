@@ -65,6 +65,11 @@ public class PlayerTPSController : MonoBehaviour
         StartCoroutine(ResetWeightInternal(val));
     }
 
+    public void DeadWeight()
+    {
+        RighthandWeight = LefthandWeight = BodyWeight = HeadWeight = EyeWeight = MainWeight = 0.0f;
+    }
+
     IEnumerator ResetWeightInternal(bool val)
     {
         yield return new WaitForSeconds(0.3568f);

@@ -10109,6 +10109,7 @@ MonoBehaviour:
     m_Bits: 0
   targets: []
   anim: {fileID: 841665849022206472}
+  tps_controller: {fileID: 520494427}
   health:
     MaxHealth: 100
     Currenthealth: 100

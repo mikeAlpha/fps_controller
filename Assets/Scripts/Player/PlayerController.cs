@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform RaycastPoint;
     public Animator anim, tps_anim;
+    public PlayerTPSController tpsController;
     public bool IsPlayerActive = true;
     public AudioClip[] footstepClips;
 
@@ -221,6 +222,8 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerActive = false;
         characterController.height = 0.7f;
+        tpsController.DeadWeight();
+        tps_anim.Play("death");
         anim.gameObject.SetActive(false);
     }
 

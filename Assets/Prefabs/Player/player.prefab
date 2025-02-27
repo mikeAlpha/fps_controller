@@ -5798,6 +5798,7 @@ MonoBehaviour:
   RaycastPoint: {fileID: 321316691698033809}
   anim: {fileID: 798019410525917768}
   tps_anim: {fileID: 841665848535797597}
+  tpsController: {fileID: 347324617592704043}
   IsPlayerActive: 1
   footstepClips:
   - {fileID: 8300000, guid: d1aa3733d8c45f34d8c4f4832b18408b, type: 3}
