@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyWithinHearingRange : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+namespace mikealpha {
+    public class EnemyWithinHearingRange : Condition
     {
-        
-    }
+        private Transform mTransform;
+        private AITree mTree;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public EnemyWithinHearingRange(Transform transform)
+        {
+            mTransform = transform;
+            if (mTransform.GetComponent<AITree>() != null)
+            {
+                mTree = mTransform.GetComponent<AITree>();
+            }
+        }
+
+        public override bool CheckCondition()
+        {
+            return base.CheckCondition();
+        }
     }
 }

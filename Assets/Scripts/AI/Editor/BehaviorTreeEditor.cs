@@ -6,7 +6,6 @@ using System;
 using System.Reflection;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine.ProBuilder.Shapes;
 
 public class BehaviorTreeEditor : EditorWindow
 {
@@ -106,7 +105,9 @@ public class BehaviorTreeEditor : EditorWindow
                             //connections = aiTree.saveData.Connections;
                             foreach (var conn in aiTree.saveData.Connections_2)
                                 connections.Add((conn.parent, conn.child));
+                      
                         }
+                        //UpdateConns();
                     }
                     else
                     {
@@ -141,7 +142,7 @@ public class BehaviorTreeEditor : EditorWindow
             startPos = conn.parent.OutNode.center;
             endPos = conn.child.InNode.center;
             Handles.DrawBezier(startPos, endPos, startPos + Vector3.right * 5, endPos + Vector3.left * 5, Color.red, null, 3f);
-            //Debug.Log("Here====update conns");
+            Debug.Log("Here====update conns");
         }
     }
 
@@ -263,7 +264,7 @@ public class BehaviorTreeEditor : EditorWindow
         Vector3 end = new Vector3(toNode.InNode.center.x, toNode.InNode.center.y, 0);
         Handles.DrawBezier(start, end, start + Vector3.right * 5, end + Vector3.left * 5, Color.red, null, 3f);
 
-        //Debug.Log("Update conns=====");
+        Debug.Log("Update conns=====");
         
         if (!connections.Contains((fromNode, toNode)))
         {

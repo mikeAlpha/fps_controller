@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 [Serializable]
 public struct PlayerLocomotion
@@ -54,9 +51,13 @@ public class PlayerController : MonoBehaviour
     public Animator anim, tps_anim;
     public PlayerTPSController tpsController;
     public bool IsPlayerActive = true;
-    public AudioClip[] footstepClips;
+
+    public GameObject BoneCombinerFPSRef,BoneCombinerTPSRef;
 
     private AudioSource footstepSource;
+    private BoneCombiner boneCombiner;
+
+    public EquippableItem inventoryItem;
 
     [SerializeField]
     private PlayerLookSettings playerLookSettings = new PlayerLookSettings()
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour
         walkStepInterval = 0.5f,
         runStepInterval = 0.3f
     };
-    
+    public AudioClip[] footstepClips;
     //temporary
     [SerializeField] private InputManager inputManager;
 
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+        Init();
         EventHandler.RegisterEvent(gameObject,GameEvents.OnPlayerDied, PlayerDied);
     }
 
@@ -98,11 +100,16 @@ public class PlayerController : MonoBehaviour
         EventHandler.UnregisterEvent(gameObject,GameEvents.OnPlayerDied, PlayerDied);
     }
 
-    private void Awake()
+    private void Init()
     {
         Application.targetFrameRate = 120;
+
+        boneCombiner = new BoneCombiner(BoneCombinerFPSRef, 62);
+        
         inputManager = new InputManager();
         playerHealth = new PlayerHealth(gameObject);
+
+
 
         EventHandler.ExecuteEvent<InputManager>(GameEvents.OnInputManagerUpdate, inputManager);
     }
@@ -116,6 +123,8 @@ public class PlayerController : MonoBehaviour
         startPos = new GameObject("weaponStart");
         startPos.transform.parent = playerLookSettings.CamMainObj.transform;
         startPos.transform.position = playerLookSettings.fpsCamObj.transform.position;
+
+        boneCombiner.AddLimb(inventoryItem.DisplayObject, inventoryItem.boneNames);
         //rb = GetComponent<Rigidbody>();
     }
 

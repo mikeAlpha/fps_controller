@@ -93,7 +93,7 @@ namespace mikealpha
         public void UpdatePosition(Vector2 delta)
         {
             this.rect.position += delta;
-
+            //this.InNode = new Rect(this.rect.center.x, this.rect.yMin - 10, 10, 10);
             if (OutNodeBool)
             {
                 //Debug.Log("Here---1");
@@ -102,7 +102,7 @@ namespace mikealpha
 
             if (InNodeBool)
             {
-                //Debug.Log("Here---2");
+                Debug.Log("Here---2");
                 this.InNode = new Rect(this.rect.center.x, this.rect.yMin - 10, 10, 10);
             }
             else if (InNodeBool && OutNodeBool)
