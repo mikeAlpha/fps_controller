@@ -29,11 +29,11 @@ TagManager:
   - UndergrowthMedium
   - UndergrowthLarge
   - GroundScatter
+  - Ground
   - 
   - 
   - 
-  - 
-  - 
+  - obstacle
   - 
   - ScatterSkyDome
   - SPECIAL

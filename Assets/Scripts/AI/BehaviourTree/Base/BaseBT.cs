@@ -6,17 +6,20 @@ using System.Linq;
 
 namespace mikealpha
 {
-    public abstract class BaseBT : MonoBehaviour
+    public abstract class BaseBT : MonoBehaviour, IPlayerController
     {
         public Node mRootNode;
 
         protected float Tick = 0.5f;
 
-        public BehaviorTreeSaveData saveData;
+        private GraphData saveData;
 
-        private List<KeyValuePair<string,Node>> mNodes = new List<KeyValuePair<string, Node>>();
+        [SerializeField]
+        private TextAsset TreeData;
 
-        public bool IsAiactive = true; 
+        private List<KeyValuePair<string, Node>> mNodes = new List<KeyValuePair<string, Node>>();
+
+        public bool IsAiactive = true;
 
         protected abstract void Start();
         protected abstract void OnEnable();
@@ -30,6 +33,7 @@ namespace mikealpha
 
         private void Update()
         {
+            Debug.Log(mRootNode);
             if (mRootNode != null && IsAiactive)
             {
                 mRootNode.UpdateStatus(Tick);
@@ -40,15 +44,17 @@ namespace mikealpha
         {
             try
             {
-                for (int i = 0; i < saveData.Nodes.Count; i++)
+                saveData = JsonUtility.FromJson<GraphData>(TreeData.text);
+
+                for (int i = 0; i < saveData.nodes.Count; i++)
                 {
                     Assembly assembly = Assembly.Load("Assembly-CSharp");
 
                     Type type = null;
-                    if (saveData.Nodes[i].name == "RootNode")
+                    if (saveData.nodes[i].title == "RootNode")
                         type = assembly.GetType("mikealpha.Fallback");
                     else
-                        type = assembly.GetType("mikealpha." + saveData.Nodes[i].name);
+                        type = assembly.GetType("mikealpha." + saveData.nodes[i].title);
 
                     object[] args = { null };
                     Node nodeData = null;
@@ -61,7 +67,7 @@ namespace mikealpha
                         nodeData = (Node)Activator.CreateInstance(type);
 
 
-                    mNodes.Add(new KeyValuePair<string, Node>(saveData.Nodes[i].name, nodeData));
+                    mNodes.Add(new KeyValuePair<string, Node>(saveData.nodes[i].title, nodeData));
                 }
 
                 ConfigConns();
@@ -77,24 +83,21 @@ namespace mikealpha
         {
             if (mNodes != null && mNodes.Count > 0)
             {
-                for (int i = 0; i < saveData.Connections_2.Count; i++) 
+                for (int i = 0; i < saveData.connections.Count; i++)
                 {
-                    string parent_key = saveData.Connections_2[i].parent.name;
-                    string child_key = saveData.Connections_2[i].child.name;
+                    string parent_key = saveData.nodes.Find(x => x.id == saveData.connections[i].fromNodeId).title;
+                    string child_key = saveData.nodes.Find(x => x.id == saveData.connections[i].toNodeId).title;
+
                     var parentNodeData = mNodes.FindAll(x => x.Key == parent_key);
                     var childNodeData = mNodes.FindAll(x => x.Key == child_key);
 
                     if (parentNodeData.Count == 1 && childNodeData.Count == 1)
+                    {
                         parentNodeData[0].Value.UpdateChildNode(childNodeData[0].Value);
-
-                    //Debug.Log(mNodes.Contains(saveData.Connections_2[i].parent.name));
-                    //if (mNodes.ContainsKey(saveData.Connections_2[i].parent.name))
-                    //{
-                    //    mNodes[saveData.Connections_2[i].parent.name].UpdateChildNode(mNodes[saveData.Connections_2[i].child.name]);
-                    //    Debug.Log("Conns====Parent===" + mNodes[saveData.Connections_2[i].parent.name].GetType().Name +"===Child==="+ mNodes[saveData.Connections_2[i].child.name].GetType());
-                    //}
+                    }
                 }
             }
         }
     }
 }
+

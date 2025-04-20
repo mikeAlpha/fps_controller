@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a2ce631ee3e1d41960afa337854508, type: 3}
+  m_Name: ak
+  m_EditorClassIdentifier: 
+  itemName: AK-47
+  itemDescription: 
+  itemIcon: {fileID: 0}
+  DisplayObject: {fileID: 6840675067710845991, guid: 2e51451e222a4204b8ae0bca6d904a85,
+    type: 3}
+  boneNames:
+  - Root
+  - Arm_L
+  - UpArm_L
+  - Forearm_L
+  - BoneTwist_03.L
+  - BoneTwist_02.L
+  - BoneTwist_01.L
+  - Arm_R
+  - UpArm_R
+  - Forearm_R
+  - BoneTwist_03.R
+  - BoneTwist_02.R
+  - BoneTwist_01.R
+  - Head_Cam
+  - IK_Hand_Cntrl_L
+  - Hand_L
+  - Bone_L.004
+  - Bone_L.005
+  - Bone_L.006
+  - Bone_L.007
+  - Bone_L.008
+  - Bone_L.009
+  - Bone_L.010
+  - Bone_L.011
+  - Bone_L.012
+  - Bone_L.013
+  - Bone_L.014
+  - Bone_L.015
+  - Bone_L.016
+  - Bone_L.017
+  - Bone_L.018
+  - Bone_L.019
+  - Bone_L.020
+  - Bone_L.021
+  - Bone_L.022
+  - IK_PoleTrgt_L
+  - IK_Hand_Cntrl_R
+  - Hand_R
+  - Bone_R.004
+  - Bone_R.005
+  - Bone_R.006
+  - Bone_R.007
+  - Bone_R.008
+  - Bone_R.009
+  - Bone_R.010
+  - Bone_R.011
+  - Bone_R.012
+  - Bone_R.013
+  - Bone_R.014
+  - Bone_R.015
+  - Bone_R.016
+  - Bone_R.017
+  - Bone_R.018
+  - Bone_R.019
+  - Bone_R.020
+  - Bone_R.021
+  - Bone_R.022
+  - IK_PoleTrgt_R
+  - ACRRifle
+  - Rif
+  - Trigger
+  - Pmag
+  FireRate: 0.2
+  ammo: 30
+  damage: 10
+  FireClip: {fileID: 8300000, guid: 438e4d63bf597db4d95aa6162f53a2fb, type: 3}
+  FireSpreadAngle: 1
+  rightArmPos:
+    pos: {x: 0.065000124, y: -0.14799976, z: 0.02900007}
+    rot: {x: 356.41602, y: 4.188, z: 272.437}
+  leftArmPos:
+    pos: {x: 0.00999998, y: -0.09899971, z: 0.37000006}
+    rot: {x: 356.99597, y: 35.543003, z: 178.602}

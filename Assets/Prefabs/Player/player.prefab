@@ -1386,7 +1386,6 @@ Transform:
   m_Children:
   - {fileID: 5286223941517555203}
   - {fileID: 1120356007661415519}
-  - {fileID: 8970251917951234490}
   m_Father: {fileID: 8333841934788531390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2905406722987566281
@@ -4904,37 +4903,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8432735012586200191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7653519653436067204
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8970251917951234490}
-  m_Layer: 0
-  m_Name: mag_point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8970251917951234490
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7653519653436067204}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.0020944288, z: 0, w: 0.99999785}
-  m_LocalPosition: {x: 0.112, y: -0.023, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1838547332363475912}
-  m_LocalEulerAnglesHint: {x: 0, y: 0.24, z: 0}
 --- !u!1 &7737208617500073922
 GameObject:
   m_ObjectHideFlags: 0
@@ -5342,7 +5310,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 623391184181154321}
-  - component: {fileID: 6798666601296945045}
   m_Layer: 0
   m_Name: ACRMain
   m_TagString: Untagged
@@ -5366,23 +5333,6 @@ Transform:
   - {fileID: 1292805568930247436}
   m_Father: {fileID: 1567136965793957538}
   m_LocalEulerAnglesHint: {x: -79.702, y: -94.546, z: 186.252}
---- !u!114 &6798666601296945045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8408348676920128947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5b32bbd36fa10547b160999814e14fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FireRate: 0.5
-  FirePoint: {fileID: 8063592865458915895}
-  FireClip: {fileID: 0}
-  FireSpreadAngle: 0.05
-  CurrentlySelected: 1
 --- !u!1 &8480091035537201798
 GameObject:
   m_ObjectHideFlags: 0
@@ -5533,24 +5483,12 @@ MonoBehaviour:
   tps_anim: {fileID: 841665848535797597}
   tpsController: {fileID: 347324617592704043}
   IsPlayerActive: 1
-  footstepClips:
-  - {fileID: 8300000, guid: d1aa3733d8c45f34d8c4f4832b18408b, type: 3}
-  - {fileID: 8300000, guid: 844efebf69b38334d8ba1a2a9a10520b, type: 3}
-  - {fileID: 8300000, guid: e4d20d55ad7e2b345a11bb394996a892, type: 3}
-  - {fileID: 8300000, guid: a47fd4bfbb4c1f0419a7f4d0f21fa6dd, type: 3}
-  - {fileID: 8300000, guid: 794cade818f2b464891dca7fa25ef2d2, type: 3}
-  - {fileID: 8300000, guid: 71e7d7611ea9fa5469ff761d822137f4, type: 3}
-  - {fileID: 8300000, guid: fb360519bbf3e2c41bb432db6789dc05, type: 3}
-  - {fileID: 8300000, guid: 5ba36502eaaf59b41add08a773de0d2f, type: 3}
-  - {fileID: 8300000, guid: 825561a306d3a654b8aae7cea01913e0, type: 3}
-  - {fileID: 8300000, guid: d5dbe69cd0fdf36459117d55557224f9, type: 3}
   BoneCombinerFPSRef: {fileID: 355644884692056229}
   BoneCombinerTPSRef: {fileID: 0}
-  inventoryItem: {fileID: 11400000, guid: cdfceb9ae0e373345b46be0bedd594eb, type: 2}
   playerLookSettings:
     CamMainObj: {fileID: 1838547332363475912}
     fpsCamObj: {fileID: 2535474462887534841}
-    MagPos: {fileID: 8970251917951234490}
+    MagPos: {fileID: 0}
     minPitch: -90
     maxPitch: 90
     smoothTime: 0.1
@@ -5562,11 +5500,25 @@ MonoBehaviour:
     gravity: -9.8
     walkStepInterval: 0.3
     runStepInterval: 0.5
+  footstepClips:
+  - {fileID: 8300000, guid: d1aa3733d8c45f34d8c4f4832b18408b, type: 3}
+  - {fileID: 8300000, guid: 844efebf69b38334d8ba1a2a9a10520b, type: 3}
+  - {fileID: 8300000, guid: e4d20d55ad7e2b345a11bb394996a892, type: 3}
+  - {fileID: 8300000, guid: a47fd4bfbb4c1f0419a7f4d0f21fa6dd, type: 3}
+  - {fileID: 8300000, guid: 794cade818f2b464891dca7fa25ef2d2, type: 3}
+  - {fileID: 8300000, guid: 71e7d7611ea9fa5469ff761d822137f4, type: 3}
+  - {fileID: 8300000, guid: fb360519bbf3e2c41bb432db6789dc05, type: 3}
+  - {fileID: 8300000, guid: 5ba36502eaaf59b41add08a773de0d2f, type: 3}
+  - {fileID: 8300000, guid: 825561a306d3a654b8aae7cea01913e0, type: 3}
+  - {fileID: 8300000, guid: d5dbe69cd0fdf36459117d55557224f9, type: 3}
   inputManager:
     mouseSensitivity: 1
   playerHealth:
     MaxHealth: 100
     Currenthealth: 100
+  weapons:
+  - {fileID: 11400000, guid: c34b314c04a51494498f1ead4a142500, type: 2}
+  - {fileID: 11400000, guid: 4b0bf262c11950b4494377c7ae823a53, type: 2}
 --- !u!114 &3147478002605730039
 MonoBehaviour:
   m_ObjectHideFlags: 0

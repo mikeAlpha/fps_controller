@@ -28,6 +28,12 @@ public class BoneCombiner
 
     private Transform ProcessBonedObject(SkinnedMeshRenderer renderer, List<string> boneNames)
     {
+        //var weapon_settings = renderer.gameObject.GetComponent<WeaponController>().weapon;
+        //var bonedObject = new GameObject(weapon_settings.DisplayObject.name).transform;
+
+        //var meshRenderer = bonedObject.gameObject.AddComponent<SkinnedMeshRenderer>();
+        //var wc = bonedObject.gameObject.AddComponent<WeaponController>();
+        //wc.weapon = weapon_settings;
         var bonedObject = new GameObject().transform;
 
         var meshRenderer = bonedObject.gameObject.AddComponent<SkinnedMeshRenderer>();
@@ -37,6 +43,8 @@ public class BoneCombiner
             //Debug.Log("AddedLimb====" + boneNames[i].GetHashCode() + "====" + boneNames[i]);
             _boneTransforms[i] = _rootBoneDictionary[boneNames[i].GetHashCode()];
         }
+
+        renderer.bones = _boneTransforms;
 
         meshRenderer.bones = _boneTransforms;
         meshRenderer.sharedMesh = renderer.sharedMesh;

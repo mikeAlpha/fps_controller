@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -13,7 +11,7 @@ public class InputManager
     [SerializeField] [Range(0, 1f), Tooltip("[0, 1]")] private float mouseSensitivity = 1f;
 
     public InputManager() {
-        Debug.Log("Init Input");
+        //Debug.Log("Init Input");
     }
     ~InputManager() { }
 

@@ -1,0 +1,21 @@
+#pragma kernel CSMain
+
+RWStructuredBuffer<float4> _InstancePositions;
+int _InstanceCount;
+float3 _BoxMin;
+float3 _BoxMax;
+
+[numthreads(1024, 1, 1)] // Process 1024 instances per thread group
+void CSMain(uint id : SV_DispatchThreadID)
+{
+    if (id >= _InstanceCount)
+        return;
+
+    // Generate a random position inside the Box Collider
+    float3 pos;
+    pos.x = lerp(_BoxMin.x, _BoxMax.x, frac(sin(id * 10.1324) * 43758.5453));
+    pos.y = lerp(_BoxMin.y, _BoxMax.y, frac(sin(id * 12.1424) * 43758.5453));
+    pos.z = lerp(_BoxMin.z, _BoxMax.z, frac(sin(id * 14.1524) * 43758.5453));
+
+    _InstancePositions[id] = float4(pos, 1.0);
+}

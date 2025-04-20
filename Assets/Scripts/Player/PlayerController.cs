@@ -11,23 +11,59 @@ public struct PlayerLocomotion
     [Range(-10f, 10f), Tooltip("[-10, 10]")] public float gravity;
     [Range(0f, 1f), Tooltip("[0, 1]")] public float walkStepInterval;
     [Range(0f, 1f), Tooltip("[0, 1]")] public float runStepInterval;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float moveDampTime;
+    [Range(0f, 10f), Tooltip("[0, 10]")] public float moveMultiplierForDamp;
 }
 
 [Serializable]
 public struct PlayerLookSettings
 {
-    [Tooltip("Place the Camera Parent Object Here")] public Transform CamMainObj;
-    [Tooltip("Place the Camera Component Here")] public Camera fpsCamObj;
+    [Tooltip("REMEMBER TO REMOVE THIS")] public Transform CamMainObj;
+    [Tooltip("REMEMBER TO REMOVE THIS")] public Camera fpsCamObj;
     [Tooltip("Place the Aiming Position Here")] public Transform MagPos;
     [Tooltip("Adjust the Min Pitch")] public float minPitch;
     [Tooltip("Adjust the Max Pitch")] public float maxPitch;
     [Tooltip("Look Interpolation Smooth Time")] public float smoothTime;
+
+    public Transform HeadBone;
+    public Transform CameraTranform;
+    public Vector3 CameraOffset;
 }
 
 public struct PlayerAnimators
 {
     public Animator anim;
     public Animator tps_anim;
+}
+
+[Serializable]
+public struct PlayerIK
+{
+    [Tooltip("Place the Right Hand Reference")] public Transform RightHandRef;
+    [Tooltip("Place the Right Elbow Reference")] public Transform RightElbowRef;
+    [Tooltip("Place the Left Hand Reference")] public Transform LeftHandRef;
+    [Tooltip("Place the Left Elbow Reference")] public Transform LeftElbowRef;
+
+    [Tooltip("Place the ShoulderIK transform")] public Transform ShoulderIK;
+    [Tooltip("Place the Right Shoulder Bone")] public Transform ShoulderBone;
+    [Tooltip("Place the Right Hand Bone")] public Transform RightHand;
+
+    [Tooltip("Place the camera look at transform")] public Transform LookAtPosition;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float RighthandWeight;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float LefthandWeight;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float BodyWeight;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float HeadWeight;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float EyeWeight;
+    [Range(0f, 1f), Tooltip("[0, 1]")] public float MainWeight;
+}
+
+[Serializable]
+public struct PlayerCameraSettings
+{
+    public Transform HeadBone;
+    public Transform CameraTranform;
+    public Vector3 CameraOffset;
+
 }
 
 
@@ -57,7 +93,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource footstepSource;
     private BoneCombiner boneCombiner;
 
-    public EquippableItem inventoryItem;
+    //public EquippableItem inventoryItem;
 
     [SerializeField]
     private PlayerLookSettings playerLookSettings = new PlayerLookSettings()
@@ -109,8 +145,6 @@ public class PlayerController : MonoBehaviour
         inputManager = new InputManager();
         playerHealth = new PlayerHealth(gameObject);
 
-
-
         EventHandler.ExecuteEvent<InputManager>(GameEvents.OnInputManagerUpdate, inputManager);
     }
 
@@ -119,12 +153,13 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         footstepSource = GetComponent<AudioSource>();
 
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         startPos = new GameObject("weaponStart");
         startPos.transform.parent = playerLookSettings.CamMainObj.transform;
         startPos.transform.position = playerLookSettings.fpsCamObj.transform.position;
 
-        boneCombiner.AddLimb(inventoryItem.DisplayObject, inventoryItem.boneNames);
+        //OnInitInventory();
+        //boneCombiner.AddLimb(inventoryItem.DisplayObject, inventoryItem.boneNames);
         //rb = GetComponent<Rigidbody>();
     }
 

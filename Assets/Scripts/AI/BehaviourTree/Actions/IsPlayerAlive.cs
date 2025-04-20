@@ -27,9 +27,10 @@ namespace mikealpha
             {
                 int tCount = mTree.targets.Count;
                 var targets = mTree.targets;
-                for(int i = 0; i < targets.Count;i++ )
+                for (int i = 0; i < targets.Count; i++)
                 {
-                    if (targets[i].GetComponent<PlayerController>() != null) {
+                    if (targets[i].GetComponent<PlayerController>() != null)
+                    {
                         var player = targets[i].GetComponent<PlayerController>();
                         if (!targets[i].GetComponent<PlayerController>().IsPlayerActive)
                         {

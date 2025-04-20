@@ -27,7 +27,7 @@ namespace mikealpha
 
         protected override void DoAction(float tick)
         {
-
+            Debug.Log("Patrolling");
             Vector3 pos = mWaypoints[mCurrent_index].position;
             pos.y = mTransform.position.y;
 

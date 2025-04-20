@@ -13,8 +13,10 @@ namespace mikealpha
 
         public override status UpdateStatus(float tick)
         {
+            Debug.Log("count==" + childNodes.Count);
             for (int i = 0; i < childNodes.Count; i++)
             {
+                Debug.Log(childNodes[i]);
                 var status = childNodes[i].UpdateStatus(tick);
                 if (status == status.running)
                     return status.running;

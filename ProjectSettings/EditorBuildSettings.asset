@@ -17,7 +17,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Forest_EnvironmentSample_Collisions.unity
     guid: b113fbf76ecc0f047b63fe945ed1f232
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/landascape.unity
     guid: 52bc547cc6bd91b44bb10940b4e56f3b
+  - enabled: 1
+    path: Assets/Scenes/fps_controller_test.unity
+    guid: f785e17aec60ee84a9ed846d60313482
   m_configObjects: {}

@@ -31,7 +31,7 @@ namespace mikealpha
                 var target = mITree.targets;
                 foreach (var t in target)
                 {
-                    if (t.GetComponent<PlayerController>().IsPlayerActive)
+                    if (t.GetComponent<PlayerControllerV2>().IsPlayerActive)
                     {
                         if (Vector3.Distance(mTransform.position, t.position) > AttackDistance)
                         {

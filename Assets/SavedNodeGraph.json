@@ -1,0 +1,86 @@
+{
+    "nodes": [
+        {
+            "id": "d65fc83a-0bb7-4b15-b1bb-89212c22d0a5",
+            "title": "RootNode",
+            "position": {
+                "x": 905.0,
+                "y": 213.0
+            },
+            "InNode": false,
+            "OutNode": true
+        },
+        {
+            "id": "809b2af7-4a4a-49c0-a608-090baa9458f0",
+            "title": "Patrol",
+            "position": {
+                "x": 745.0,
+                "y": 368.5
+            },
+            "InNode": true,
+            "OutNode": false
+        },
+        {
+            "id": "5ea036d5-05e6-4bad-b5aa-37b8fe6a3ffb",
+            "title": "Sequence",
+            "position": {
+                "x": 1053.0,
+                "y": 362.5
+            },
+            "InNode": true,
+            "OutNode": true
+        },
+        {
+            "id": "238f4032-6978-4b14-a397-58ad1bb6420c",
+            "title": "EnemyWithinRange",
+            "position": {
+                "x": 946.0,
+                "y": 467.5
+            },
+            "InNode": true,
+            "OutNode": false
+        },
+        {
+            "id": "c21d4d4f-53ec-41b8-a00f-151829565f07",
+            "title": "Attack",
+            "position": {
+                "x": 1121.0,
+                "y": 470.5
+            },
+            "InNode": true,
+            "OutNode": false
+        },
+        {
+            "id": "a08723ed-de03-463c-88ae-8b823d0c0a3a",
+            "title": "IsPlayerAlive",
+            "position": {
+                "x": 1291.0,
+                "y": 467.5
+            },
+            "InNode": true,
+            "OutNode": false
+        }
+    ],
+    "connections": [
+        {
+            "fromNodeId": "d65fc83a-0bb7-4b15-b1bb-89212c22d0a5",
+            "toNodeId": "809b2af7-4a4a-49c0-a608-090baa9458f0"
+        },
+        {
+            "fromNodeId": "d65fc83a-0bb7-4b15-b1bb-89212c22d0a5",
+            "toNodeId": "5ea036d5-05e6-4bad-b5aa-37b8fe6a3ffb"
+        },
+        {
+            "fromNodeId": "5ea036d5-05e6-4bad-b5aa-37b8fe6a3ffb",
+            "toNodeId": "238f4032-6978-4b14-a397-58ad1bb6420c"
+        },
+        {
+            "fromNodeId": "5ea036d5-05e6-4bad-b5aa-37b8fe6a3ffb",
+            "toNodeId": "c21d4d4f-53ec-41b8-a00f-151829565f07"
+        },
+        {
+            "fromNodeId": "5ea036d5-05e6-4bad-b5aa-37b8fe6a3ffb",
+            "toNodeId": "a08723ed-de03-463c-88ae-8b823d0c0a3a"
+        }
+    ]
+}

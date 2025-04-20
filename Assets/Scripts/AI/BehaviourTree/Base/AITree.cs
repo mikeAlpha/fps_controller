@@ -17,8 +17,10 @@ public class AITree : BaseBT
     public PlayerTPSController tps_controller;
     public AiHealth health;
 
-
     public Transform RayCastPoint;
+    public WeaponController mWeaponController;
+
+    public EquippableItem currentItem;
 
     protected override void OnEnable()
     {
@@ -33,6 +35,7 @@ public class AITree : BaseBT
     protected override void Start()
     {
         health = new AiHealth(this);
+        mWeaponController.InitWeapon(currentItem as BaseWeapon, this);
     }
 
     private void AiDead()

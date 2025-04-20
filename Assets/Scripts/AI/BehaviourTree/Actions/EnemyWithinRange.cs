@@ -20,12 +20,12 @@ namespace mikealpha
         {
             mTree.targets.Clear();
             Collider[] col = Physics.OverlapSphere(mTransform.position, mTree.ViewRadius);
+            Debug.Log("Checking");
             foreach (Collider c in col)
             {
-                //Debug.Log(" Not Seen");
-                if (c.gameObject.CompareTag("Player") && c.GetComponent<PlayerController>().IsPlayerActive)
+                Debug.Log(" Not Seen");
+                if (c.gameObject.CompareTag("Player") && c.GetComponent<PlayerControllerV2>().IsPlayerActive)
                 {
-                    Debug.Log("Seen");
                     var dir = (c.transform.position - mTransform.position).normalized;
                     float angleWithEnemy = Vector3.Angle(mTransform.forward, dir);
                     var dst = Vector3.Distance(mTransform.position, c.transform.position);
@@ -35,6 +35,7 @@ namespace mikealpha
                             return;
                         else
                         {
+                            Debug.Log("Seen");
                             mTree.targets.Add(c.transform);
                         }
                     }

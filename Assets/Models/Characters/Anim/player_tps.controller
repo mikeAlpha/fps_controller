@@ -76,7 +76,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: Movement
     m_StateMachine: {fileID: 7101064660095998601}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -96,7 +96,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 784992e8b6b43514bb6c6ae14d2685c9,
+    m_Motion: {fileID: -203655887218126122, guid: 5bca7c6ad5a573144a384c49939ff3a7,
       type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
@@ -105,7 +105,7 @@ BlendTree:
     m_DirectBlendParameter: SpeedX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: e2897cc3c56ad594b92f20a2310af656,
+    m_Motion: {fileID: -203655887218126122, guid: 5e5fe7be799e2dd4dba57748f9ad09e5,
       type: 3}
     m_Threshold: 0.25
     m_Position: {x: -1, y: 0}
@@ -114,7 +114,7 @@ BlendTree:
     m_DirectBlendParameter: SpeedX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 39e07a5eb7f8b5e4281732843f781fab,
+    m_Motion: {fileID: -203655887218126122, guid: 0888c48d111697048a08f8173bd180a2,
       type: 3}
     m_Threshold: 0.5
     m_Position: {x: 1, y: 0}
@@ -123,7 +123,7 @@ BlendTree:
     m_DirectBlendParameter: SpeedX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: d9f4585ce9a841642b1a830525bdaf2e,
+    m_Motion: {fileID: -203655887218126122, guid: a7533781855403148a760261b2db266f,
       type: 3}
     m_Threshold: 0.75
     m_Position: {x: 0, y: -1}
@@ -132,7 +132,7 @@ BlendTree:
     m_DirectBlendParameter: SpeedX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: c1e6b672f8e211a4484980a7fb8d9e6c,
+    m_Motion: {fileID: -203655887218126122, guid: 7e5e5b6724821cc4fbca11016670b321,
       type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 1}
@@ -154,7 +154,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: Movement
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -4207226589615038796}
